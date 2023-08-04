@@ -18,9 +18,10 @@ export async function GET(request: Request, ctx: any) {
 
     const returnedData = allCourses.map((course) => {
         // Should have to map the periods
+        // removing the leading zeros from the section
         return {
             title: course.title,
-            section: course.section,
+            section: parseInt(course.section.replace(/^0+/, "")),
             teacher: course.classes[0]?.teacher ?? "No Teacher",
             periods: course.classes.map((period: any) => {
                 const timeSplit = period.time.split(" - ");
