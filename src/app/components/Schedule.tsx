@@ -3,6 +3,7 @@ interface Props {
         title: string;
         section: number;
         teacher: string;
+        id: string;
         periods: {
             day: string;
             room: string;
@@ -62,6 +63,7 @@ const calculateScheduleCells = (data: Props["data"]) => {
                   end_hour: number;
                   end_minute: number;
               };
+              id: string;
               title: string;
               section: number;
               teacher: string;
@@ -168,7 +170,6 @@ export default function Schedule({ data }: Props) {
                                         row.period.start_hour + row.period.start_minute / 60;
 
                                     const end = row.period.end_hour + row.period.end_minute / 60;
-
                                     return (
                                         <td
                                             key={j}
@@ -179,7 +180,7 @@ export default function Schedule({ data }: Props) {
                                             <span>
                                                 <b>{row.title.slice(0, 20)}</b>
                                                 <br />
-                                                sec. {row.section.toString().padStart(5, "0")}
+                                                {row.id} - {row.section.toString().padStart(5, "0")}
                                                 <br />
                                                 {row.teacher}
                                                 <br />

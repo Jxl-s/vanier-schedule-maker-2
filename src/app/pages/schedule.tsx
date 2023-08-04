@@ -11,6 +11,8 @@ interface CourseData {
     title: string;
     section: number;
     teacher: string;
+    id: string;
+
     periods: {
         day: string;
         room: string;
@@ -129,6 +131,7 @@ export default function Schedules() {
                     section: course.section,
                     teacher: course.teacher,
                     periods: course.periods,
+                    id: course.id,
                 }))
             );
 
@@ -343,6 +346,18 @@ export default function Schedules() {
                                 {"Next"}
                             </Button>
                         </div>
+                        <br />
+                        <span className="w-full text-center text-blue-200">
+                            {(currentCombinations[combIdx - 1] ?? []).map((course) => (
+                                <p>
+                                    {course.id +
+                                        " - " +
+                                        course.title +
+                                        " - " +
+                                        course.section.toString().padStart(5, "0")}
+                                </p>
+                            ))}
+                        </span>
                     </div>
                 </div>
             </div>
