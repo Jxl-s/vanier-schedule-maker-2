@@ -56,6 +56,11 @@ function CourseDisplay({ course, data, onSectionChange, onDelete }: CourseDispla
             <div className="col-span-2">
                 <List
                     options={sectionOptions}
+                    _preset={
+                        course.section === -1
+                            ? sectionOptions[sectionOptions.length - 1]
+                            : sectionOptions[0]
+                    }
                     onChange={(selected) => {
                         // split before the first dash
                         const section = selected.split("-")[0].trim();
@@ -91,6 +96,31 @@ export default function Schedules() {
             section: number;
         }[]
     >([]);
+
+    useEffect(() => {
+        const courseDataString = localStorage.getItem("courseData");
+        if (courseDataString) {
+            setCourseData(new Map(Object.entries(JSON.parse(courseDataString))));
+        }
+
+        const currentCoursesString = localStorage.getItem("currentCourses");
+        if (currentCoursesString) {
+            setCurrentCourses(JSON.parse(currentCoursesString));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("currentCourses", JSON.stringify(currentCourses));
+    }, [currentCourses]);
+
+    useEffect(() => {
+        const localObject: any = {};
+        courseData.forEach((value, key) => {
+            localObject[key] = value;
+        });
+
+        localStorage.setItem("courseData", JSON.stringify(localObject));
+    }, [courseData]);
 
     const [inputCourseCode, setInputCourseCode] = useState("");
     const [isFetchingData, setIsFetchingData] = useState(false);
@@ -140,13 +170,15 @@ export default function Schedules() {
 
         // Add the course to the current courses
         setCurrentCourses((prev) => {
-            return [
+            const newData = [
                 ...prev,
                 {
                     course: inputCourseCode.toUpperCase(),
                     section: resJson.data[0].section,
                 },
             ];
+
+            return newData;
         });
 
         setIsFetchingData(false);
@@ -348,8 +380,8 @@ export default function Schedules() {
                         </div>
                         <br />
                         <span className="w-full text-center text-blue-200">
-                            {(currentCombinations[combIdx - 1] ?? []).map((course) => (
-                                <p>
+                            {(currentCombinations[combIdx - 1] ?? []).map((course, i) => (
+                                <p key={i}>
                                     {course.id +
                                         " - " +
                                         course.title +

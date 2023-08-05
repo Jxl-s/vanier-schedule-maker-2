@@ -4,12 +4,13 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 interface Props {
     options: string[];
+    _preset?: string;
     onChange?: (selected: string) => void;
     className?: string;
 }
 
-export default function List({ options, onChange, className }: Props) {
-    const [selected, setSelected] = useState(options[0]);
+export default function List({ options, _preset, onChange, className }: Props) {
+    const [selected, setSelected] = useState(_preset ?? options[0]);
 
     const onSelected = (value: string) => {
         setSelected(value);
