@@ -59,7 +59,9 @@ function CourseDisplay({ course, data, onSectionChange, onDelete }: CourseDispla
                     _preset={
                         course.section === -1
                             ? sectionOptions[sectionOptions.length - 1]
-                            : sectionOptions[0]
+                            : sectionOptions.find((e) =>
+                                  e.startsWith(addLeadingZeros(course.section))
+                              )
                     }
                     onChange={(selected) => {
                         // split before the first dash
