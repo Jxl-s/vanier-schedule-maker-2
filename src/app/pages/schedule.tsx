@@ -381,14 +381,19 @@ export default function Schedules() {
                             </Button>
                         </div>
                         <br />
-                        <span className="w-full text-center text-blue-200">
+                        <span
+                            className="w-full text-left text-blue-200 text-lg"
+                            style={{
+                                fontFamily: "'Space Mono', monospace",
+                            }}
+                        >
                             {(currentCombinations[combIdx - 1] ?? []).map((course, i) => (
                                 <p key={i}>
                                     {course.id +
                                         " - " +
-                                        course.title +
+                                        course.section.toString().padStart(5, "0") +
                                         " - " +
-                                        course.section.toString().padStart(5, "0")}
+                                        course.title}
                                 </p>
                             ))}
                         </span>
