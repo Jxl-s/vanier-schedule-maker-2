@@ -16,7 +16,27 @@ export async function GET(request: Request, ctx: any) {
         .filter((course) => course.courseId.toLowerCase() === courseId.toLowerCase())
         .sort((a, b) => parseInt(a) - parseInt(b));
 
-    const returnedData = allCourses.map((course) => {
+    // For each course, go through their classes and filter out duplicate time slots
+    const filteredCourses = allCourses.map((course) => {
+        const classes = course.classes;
+        const filteredClasses: any = [];
+        const keySet = new Set<string>();
+
+        for (const classObj of classes) {
+            const classKey = `${classObj.day}-${classObj.time}`;
+            if (keySet.has(classKey)) continue;
+
+            filteredClasses.push(classObj);
+            keySet.add(classKey);
+        }
+
+        return {
+            ...course,
+            classes: filteredClasses,
+        };
+    });
+
+    const returnedData = filteredCourses.map((course) => {
         // Should have to map the periods
         // removing the leading zeros from the section
         return {
