@@ -99,6 +99,53 @@ export default function Schedules() {
         }[]
     >([]);
 
+    // Saving and loading
+    const [saveName, setSaveName] = useState("");
+    const [savedSchedules, setSavedSchedule] = useState<string[]>([]);
+
+    const loadSavedSchedules = () => {
+        const allSaved = localStorage.getItem("savedSchedules");
+        if (!allSaved) return;
+
+        const allSavedJson = JSON.parse(allSaved);
+        setSavedSchedule(Object.keys(allSavedJson));
+    };
+
+    const onSaveSchedule = () => {
+        if (!saveName) return;
+
+        let allSaved = localStorage.getItem("savedSchedules");
+        if (!allSaved) allSaved = "{}";
+
+        const allSavedJson = JSON.parse(allSaved);
+
+        // Save the course data
+        const localObject: any = {};
+        courseData.forEach((value, key) => {
+            localObject[key] = value;
+        });
+
+        allSavedJson[saveName] = {
+            courses: currentCourses,
+            data: localObject,
+        };
+
+        localStorage.setItem("savedSchedules", JSON.stringify(allSavedJson));
+        loadSavedSchedules();
+    };
+
+    const loadSchedule = (name: string) => {
+        const allSaved = localStorage.getItem("savedSchedules");
+        if (!allSaved) return;
+
+        const allSavedJson = JSON.parse(allSaved);
+        const savedSchedule = allSavedJson[name];
+        if (!savedSchedule) return;
+
+        setCurrentCourses(savedSchedule.courses);
+        setCourseData(new Map(Object.entries(savedSchedule.data)));
+    };
+
     useEffect(() => {
         const courseDataString = localStorage.getItem("courseData");
         if (courseDataString) {
@@ -109,6 +156,8 @@ export default function Schedules() {
         if (currentCoursesString) {
             setCurrentCourses(JSON.parse(currentCoursesString));
         }
+
+        loadSavedSchedules();
     }, []);
 
     useEffect(() => {
@@ -349,6 +398,43 @@ export default function Schedules() {
                         <p className="opacity-50">
                             There are currently {currentCombinations.length} possible schedule(s)
                         </p>
+                    </div>
+                    <div className="mt-4">
+                        <p className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
+                            Save
+                        </p>
+                        <Input
+                            label="Schedule Name"
+                            placeholder="Name here"
+                            onChange={(v) => setSaveName(v)}
+                            value={saveName}
+                        />
+                        <Button
+                            variant="solid"
+                            color="primary"
+                            className="w-full mt-2"
+                            onClick={onSaveSchedule}
+                        >
+                            Save
+                        </Button>
+                    </div>
+                    <div className="mt-4">
+                        <p className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
+                            Load
+                        </p>
+                        <div className="grid lg:grid-cols-4 gap-2">
+                            {savedSchedules.map((schedule, i) => (
+                                <Button
+                                    variant="solid"
+                                    color="primary"
+                                    className="w-full mt-2"
+                                    key={i}
+                                    onClick={() => loadSchedule(schedule)}
+                                >
+                                    {schedule}
+                                </Button>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className="w-full col-span-2 xl:col-span-1 mt-2 xl:mt-0">
