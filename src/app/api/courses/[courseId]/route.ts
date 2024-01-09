@@ -51,7 +51,7 @@ export async function GET(request: Request, ctx: any) {
 
                 return {
                     day: period.day,
-                    room: period.room,
+                    room: period.room ?? "...",
 
                     start_hour: parseInt(startSplit[0]),
                     start_minute: parseInt(startSplit[1]),

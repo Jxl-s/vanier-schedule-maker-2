@@ -184,7 +184,7 @@ export default function Schedule({ data }: Props) {
                                                 <br />
                                                 {row.teacher}
                                                 <br />
-                                                {row.period.room}
+                                                {row.period.room ?? "..."}
                                             </span>
                                         </td>
                                     );
