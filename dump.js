@@ -1,6 +1,9 @@
+console.error = () => { };
+console.warn = () => { };
+
 const allData = {};
 
-async function parsePage() {
+for (let i = 0; i < 50; i++) {
     const btns = [...document.getElementsByClassName("details-link has-tooltip launch-modal")];
     const iframe = document.querySelector("iframe[aria-hidden=true]");
 
@@ -11,6 +14,8 @@ async function parsePage() {
                     clearInterval(interval);
                     return resolve();
                 }
+
+                console.log("Waiting for iframe to load...");
             }, 500);
         });
     }
@@ -57,13 +62,16 @@ async function parsePage() {
         }
     }
 
+    const curPage = document.querySelector(".active > [aria-current=page]")?.innerText ?? "?";
+    if (curPage.toString() == "50") {
+        console.log(JSON.stringify(allData));
+        break;
+    }
+
     document.querySelector("[aria-label='Next page']").click();
 
     await new Promise((resolve, reject) => setTimeout(resolve, 4000));
     console.log(`Currently on page ${document.querySelector(".active > [aria-current=page]")?.innerText ?? "?"}`);
 
     console.log(JSON.stringify(allData));
-    await parsePage();
 }
-
-parsePage();

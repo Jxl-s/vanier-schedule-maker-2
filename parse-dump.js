@@ -1,23 +1,27 @@
-const dump = require('./dump-courses.json');
-// Remove courses where there is thing happening on weekend "Sat or Sun"
+// Create a new dump file, called dump-teacher.js, which groups the data by teacher
 
-for (const [dept, arr] of Object.entries(dump)) {
-    dump[dept] = arr.filter((course) => {
-        const classes = course.classes;
+// Path: dump-teacher.js
+const dump = require("./dump-courses.json");
 
-        const hasWeekendClass = classes.some((c) => {
-            const days = c.day;
-            return days.includes('Sat') || days.includes('Sun');
-        });
+const teachers = {};
 
-        return !hasWeekendClass;
-    });
+for (const department in dump) {
+    for (const course of dump[department]) {
+        for (const cls of course.classes) {
+            const teacher = cls.teacher;
+            if (!teachers[teacher]) {
+                teachers[teacher] = [];
+            }
+
+            if (teachers[teacher].find(x => x[0] == course.title && x[1] == course.courseId && x[2] == course.section)) {
+                continue;
+            }
+
+            teachers[teacher].push(`${course.title}, ${course.courseId}, ${course.section}`);
+        }
+    }
 }
 
-// write as new file
-const fs = require('fs');
-
-fs.writeFile('dump-courses-2.json', JSON.stringify(dump), (err) => {
-    if (err) throw err;
-    console.log('The file has been saved!');
-});
+const fs = require("fs");
+const output = JSON.stringify(teachers, null, 4);
+fs.writeFileSync("./dump-teacher.json", output);
