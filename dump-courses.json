@@ -4,13 +4,13 @@
             "section": "00001",
             "courseId": "502-211-VA",
             "title": "Porfolio Essentials",
-            "classes": [{ "teacher": "Orkusz, Keith", "day": "Wed.", "time": "8:30 - 12:30" }]
+            "classes": [{ "teacher": "Orkusz, Keith", "day": "Wed", "time": "8:30 - 12:30" }]
         },
         {
             "section": "00002",
             "courseId": "502-211-VA",
             "title": "Porfolio Essentials",
-            "classes": [{ "teacher": "Litynski, Justine", "day": "Fri.", "time": "12:00 - 16:00" }]
+            "classes": [{ "teacher": "Litynski, Justine", "day": "Fri", "time": "12:00 - 16:00" }]
         }
     ],
     "530": [
@@ -18,13 +18,13 @@
             "section": "00001",
             "courseId": "530-110-VA",
             "title": "International Cinema",
-            "classes": [{ "teacher": "Donison, Cheryl", "day": "Thu.", "time": "11:30 - 14:30" }]
+            "classes": [{ "teacher": "Donison, Cheryl", "day": "Thu", "time": "11:30 - 14:30" }]
         },
         {
             "section": "00002",
             "courseId": "530-110-VA",
             "title": "International Cinema",
-            "classes": [{ "teacher": "Donison, Cheryl", "day": "Fri.", "time": "11:30 - 14:30" }]
+            "classes": [{ "teacher": "Donison, Cheryl", "day": "Fri", "time": "11:30 - 14:30" }]
         }
     ],
     "603": [
@@ -33,8 +33,8 @@
             "courseId": "603-102-MQ",
             "title": "Hallmark of Success: The Adaptive and Adapting Short Story",
             "classes": [
-                { "teacher": "Karp, Renée Joy", "day": "Wed.", "time": "8:30 - 10:30" },
-                { "teacher": "Karp, Renée Joy", "day": "Fri.", "time": "10:00 - 12:00" }
+                { "teacher": "Karp, Renée Joy", "day": "Wed", "time": "8:30 - 10:30" },
+                { "teacher": "Karp, Renée Joy", "day": "Fri", "time": "10:00 - 12:00" }
             ]
         },
         {
@@ -42,8 +42,8 @@
             "courseId": "603-102-MQ",
             "title": "Heads Up!: Sports Literature",
             "classes": [
-                { "teacher": "Spanos, Kalliopi Maria", "day": "Tue.", "time": "12:00 - 14:00" },
-                { "teacher": "Spanos, Kalliopi Maria", "day": "Thu.", "time": "12:00 - 14:00" }
+                { "teacher": "Spanos, Kalliopi Maria", "day": "Tue", "time": "12:00 - 14:00" },
+                { "teacher": "Spanos, Kalliopi Maria", "day": "Thu", "time": "12:00 - 14:00" }
             ]
         },
         {
@@ -51,8 +51,8 @@
             "courseId": "603-102-MQ",
             "title": "Docufiction: The Art of Literary Journalism",
             "classes": [
-                { "teacher": "Desrosiers, Graeme", "day": "Tue.", "time": "16:00 - 18:00" },
-                { "teacher": "Desrosiers, Graeme", "day": "Thu.", "time": "16:00 - 18:00" }
+                { "teacher": "Desrosiers, Graeme", "day": "Tue", "time": "16:00 - 18:00" },
+                { "teacher": "Desrosiers, Graeme", "day": "Thu", "time": "16:00 - 18:00" }
             ]
         },
         {
@@ -60,8 +60,8 @@
             "courseId": "603-102-MQ",
             "title": "Italian Literature in Translation",
             "classes": [
-                { "teacher": "Giacomini, Nancy", "day": "Mon.", "time": "10:00 - 12:00" },
-                { "teacher": "Giacomini, Nancy", "day": "Wed.", "time": "10:30 - 12:30" }
+                { "teacher": "Giacomini, Nancy", "day": "Mon", "time": "10:00 - 12:00" },
+                { "teacher": "Giacomini, Nancy", "day": "Wed", "time": "10:30 - 12:30" }
             ]
         },
         {
@@ -69,8 +69,8 @@
             "courseId": "603-102-MQ",
             "title": "Short Startling Tales",
             "classes": [
-                { "teacher": "Tambor, Henry", "day": "Mon.", "time": "16:00 - 18:00" },
-                { "teacher": "Tambor, Henry", "day": "Wed.", "time": "16:00 - 18:00" }
+                { "teacher": "Tambor, Henry", "day": "Mon", "time": "16:00 - 18:00" },
+                { "teacher": "Tambor, Henry", "day": "Wed", "time": "16:00 - 18:00" }
             ]
         },
         {
@@ -78,8 +78,8 @@
             "courseId": "603-102-MQ",
             "title": "New Age Literature",
             "classes": [
-                { "teacher": "Falcon, Radu", "day": "Mon.", "time": "14:00 - 16:00" },
-                { "teacher": "Falcon, Radu", "day": "Wed.", "time": "14:00 - 16:00" }
+                { "teacher": "Falcon, Radu", "day": "Mon", "time": "14:00 - 16:00" },
+                { "teacher": "Falcon, Radu", "day": "Wed", "time": "14:00 - 16:00" }
             ]
         },
         {
@@ -87,8 +87,8 @@
             "courseId": "603-102-MQ",
             "title": "Unsettling Trickster Stories",
             "classes": [
-                { "teacher": "Berlow, Pamela", "day": "Tue.", "time": "10:00 - 12:00" },
-                { "teacher": "Berlow, Pamela", "day": "Fri.", "time": "12:00 - 14:00" }
+                { "teacher": "Berlow, Pamela", "day": "Tue", "time": "10:00 - 12:00" },
+                { "teacher": "Berlow, Pamela", "day": "Fri", "time": "12:00 - 14:00" }
             ]
         },
         {
@@ -96,8 +96,8 @@
             "courseId": "603-102-MQ",
             "title": "Literary Genres",
             "classes": [
-                { "teacher": "Bucaro, Maria", "day": "Tue.", "time": "8:00 - 10:00" },
-                { "teacher": "Bucaro, Maria", "day": "Fri.", "time": "8:00 - 10:00" }
+                { "teacher": "Bucaro, Maria", "day": "Tue", "time": "8:00 - 10:00" },
+                { "teacher": "Bucaro, Maria", "day": "Fri", "time": "8:00 - 10:00" }
             ]
         },
         {
@@ -105,8 +105,8 @@
             "courseId": "603-102-MQ",
             "title": "Docufiction: The Art of Literary Journalism",
             "classes": [
-                { "teacher": "Cohen, Mark Robert", "day": "Tue.", "time": "16:00 - 18:00" },
-                { "teacher": "Cohen, Mark Robert", "day": "Thu.", "time": "16:00 - 18:00" }
+                { "teacher": "Cohen, Mark Robert", "day": "Tue", "time": "16:00 - 18:00" },
+                { "teacher": "Cohen, Mark Robert", "day": "Thu", "time": "16:00 - 18:00" }
             ]
         },
         {
@@ -114,8 +114,8 @@
             "courseId": "603-102-MQ",
             "title": "Unsettling Trickster Stories",
             "classes": [
-                { "teacher": "Berlow, Pamela", "day": "Mon.", "time": "8:00 - 10:00" },
-                { "teacher": "Berlow, Pamela", "day": "Thu.", "time": "8:00 - 10:00" }
+                { "teacher": "Berlow, Pamela", "day": "Mon", "time": "8:00 - 10:00" },
+                { "teacher": "Berlow, Pamela", "day": "Thu", "time": "8:00 - 10:00" }
             ]
         },
         {
@@ -123,8 +123,8 @@
             "courseId": "603-102-MQ",
             "title": "Introduction to British Romantic Poetry",
             "classes": [
-                { "teacher": "Collin, Katherine", "day": "Tue.", "time": "14:00 - 16:00" },
-                { "teacher": "Collin, Katherine", "day": "Thu.", "time": "14:00 - 16:00" }
+                { "teacher": "Collin, Katherine", "day": "Tue", "time": "14:00 - 16:00" },
+                { "teacher": "Collin, Katherine", "day": "Thu", "time": "14:00 - 16:00" }
             ]
         },
         {
@@ -132,8 +132,8 @@
             "courseId": "603-102-MQ",
             "title": "Contemporary Coming of Age",
             "classes": [
-                { "teacher": "James, Erica Gillian Rose", "day": "Tue.", "time": "10:00 - 12:00" },
-                { "teacher": "James, Erica Gillian Rose", "day": "Fri.", "time": "12:00 - 14:00" }
+                { "teacher": "James, Erica Gillian Rose", "day": "Tue", "time": "10:00 - 12:00" },
+                { "teacher": "James, Erica Gillian Rose", "day": "Fri", "time": "12:00 - 14:00" }
             ]
         },
         {
@@ -141,8 +141,8 @@
             "courseId": "603-102-MQ",
             "title": "Detective Fiction: Murder, Mystery and Mayhem",
             "classes": [
-                { "teacher": "Granato, Anthony", "day": "Tue.", "time": "16:00 - 18:00" },
-                { "teacher": "Granato, Anthony", "day": "Thu.", "time": "16:00 - 18:00" }
+                { "teacher": "Granato, Anthony", "day": "Tue", "time": "16:00 - 18:00" },
+                { "teacher": "Granato, Anthony", "day": "Thu", "time": "16:00 - 18:00" }
             ]
         },
         {
@@ -150,8 +150,8 @@
             "courseId": "603-102-MQ",
             "title": "Children's Fantasy Fiction",
             "classes": [
-                { "teacher": "Lepitre, April", "day": "Mon.", "time": "10:00 - 12:00" },
-                { "teacher": "Lepitre, April", "day": "Wed.", "time": "10:30 - 12:30" }
+                { "teacher": "Lepitre, April", "day": "Mon", "time": "10:00 - 12:00" },
+                { "teacher": "Lepitre, April", "day": "Wed", "time": "10:30 - 12:30" }
             ]
         },
         {
@@ -159,8 +159,8 @@
             "courseId": "603-102-MQ",
             "title": "Contemporary Theatre",
             "classes": [
-                { "teacher": "Goldberg, Matthew", "day": "Tue.", "time": "8:00 - 10:00" },
-                { "teacher": "Goldberg, Matthew", "day": "Fri.", "time": "8:00 - 10:00" }
+                { "teacher": "Goldberg, Matthew", "day": "Tue", "time": "8:00 - 10:00" },
+                { "teacher": "Goldberg, Matthew", "day": "Fri", "time": "8:00 - 10:00" }
             ]
         },
         {
@@ -168,8 +168,8 @@
             "courseId": "603-102-MQ",
             "title": "The Gods Are Fallen: Coming of Age Literature",
             "classes": [
-                { "teacher": "Rikkers, Christine", "day": "Mon.", "time": "14:00 - 16:00" },
-                { "teacher": "Rikkers, Christine", "day": "Thu.", "time": "14:00 - 16:00" }
+                { "teacher": "Rikkers, Christine", "day": "Mon", "time": "14:00 - 16:00" },
+                { "teacher": "Rikkers, Christine", "day": "Thu", "time": "14:00 - 16:00" }
             ]
         },
         {
@@ -177,8 +177,8 @@
             "courseId": "603-102-MQ",
             "title": "Poetry and the Human Experience",
             "classes": [
-                { "teacher": "Pass, Torrey", "day": "Mon.", "time": "12:00 - 14:00" },
-                { "teacher": "Pass, Torrey", "day": "Thu.", "time": "10:00 - 12:00" }
+                { "teacher": "Pass, Torrey", "day": "Mon", "time": "12:00 - 14:00" },
+                { "teacher": "Pass, Torrey", "day": "Thu", "time": "10:00 - 12:00" }
             ]
         },
         {
@@ -186,8 +186,8 @@
             "courseId": "603-102-MQ",
             "title": "Significant Stages",
             "classes": [
-                { "teacher": "Flewwelling-Skup, Aurora", "day": "Tue.", "time": "12:00 - 14:00" },
-                { "teacher": "Flewwelling-Skup, Aurora", "day": "Thu.", "time": "12:00 - 14:00" }
+                { "teacher": "Flewwelling-Skup, Aurora", "day": "Tue", "time": "12:00 - 14:00" },
+                { "teacher": "Flewwelling-Skup, Aurora", "day": "Thu", "time": "12:00 - 14:00" }
             ]
         }
     ],
@@ -197,8 +197,8 @@
             "courseId": "609-HSA-VA",
             "title": "German  Level I",
             "classes": [
-                { "teacher": "Spiller, Kathrin", "day": "Wed.", "time": "8:00 - 9:30" },
-                { "teacher": "Spiller, Kathrin", "day": "Fri.", "time": "10:00 - 11:30" }
+                { "teacher": "Spiller, Kathrin", "day": "Wed", "time": "8:00 - 9:30" },
+                { "teacher": "Spiller, Kathrin", "day": "Fri", "time": "10:00 - 11:30" }
             ]
         },
         {
@@ -206,8 +206,8 @@
             "courseId": "609-HSA-VA",
             "title": "German  Level I",
             "classes": [
-                { "teacher": "Spiller, Kathrin", "day": "Tue.", "time": "11:30 - 13:00" },
-                { "teacher": "Spiller, Kathrin", "day": "Thu.", "time": "11:30 - 13:00" }
+                { "teacher": "Spiller, Kathrin", "day": "Tue", "time": "11:30 - 13:00" },
+                { "teacher": "Spiller, Kathrin", "day": "Thu", "time": "11:30 - 13:00" }
             ]
         },
         {
@@ -215,8 +215,8 @@
             "courseId": "609-HSA-VA",
             "title": "German  Level I",
             "classes": [
-                { "teacher": "Spiller, Kathrin", "day": "Tue.", "time": "8:30 - 10:00" },
-                { "teacher": "Spiller, Kathrin", "day": "Fri.", "time": "8:30 - 10:00" }
+                { "teacher": "Spiller, Kathrin", "day": "Tue", "time": "8:30 - 10:00" },
+                { "teacher": "Spiller, Kathrin", "day": "Fri", "time": "8:30 - 10:00" }
             ]
         }
     ]
