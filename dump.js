@@ -82,7 +82,9 @@
 
                 for (const meeting of meetings) {
                     const teacher = meeting.querySelector("[data-attribute=vit_teacher]").innerText;
-                    const day = meeting.querySelector("[data-attribute=vit_day]").innerText;
+                    const day = meeting
+                        .querySelector("[data-attribute=vit_day]")
+                        .innerText.replace(/\./g, "");
                     const time = meeting.querySelector("[data-attribute=vit_time]").innerText;
 
                     classesArr.push({
