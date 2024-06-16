@@ -1,10 +1,11 @@
 (async () => {
     console.error = () => {};
     console.warn = () => {};
+    const customLog = (...text) => console.log("[Dumper]", ...text);
 
     const allData = {};
 
-    const INTERESTED_COURSES = ["609-HSA-VA", "502-211-VA", "603-102-MQ", "530-110-VA"];
+    const INTERESTED_COURSES = [""];
 
     // helpers
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -19,7 +20,7 @@
     const searchBtn = document.querySelector("button[title='Search Results']");
 
     const searchCourse = async (course) => {
-        console.log(`[Dumper] Searching for ${course}`);
+        customLog(`Searching for ${course}`);
         searchBox.value = course;
         await sleep(500);
 
@@ -46,7 +47,7 @@
                             return resolve();
                         }
 
-                        console.log("[Dumper] Waiting for iframe to load...");
+                        customLog("Waiting for iframe to load...");
                     }, 2000);
                 });
             };
@@ -78,7 +79,7 @@
                 });
 
                 const meetings = [...doc.querySelectorAll("[data-entity=vit_meetingtime")];
-                console.log(`[Dumper] ${courseCode} ${courseName} ${meetings.length}`);
+                customLog(`${courseCode} ${courseName} ${meetings.length}`);
 
                 for (const meeting of meetings) {
                     const teacher = meeting.querySelector("[data-attribute=vit_teacher]").innerText;
@@ -103,8 +104,8 @@
                 nextButton.click();
 
                 await new Promise((resolve, reject) => setTimeout(resolve, 4000));
-                console.log(
-                    `[Dumper] Currently on page ${
+                customLog(
+                    `Currently on page ${
                         document.querySelector(".active > [aria-current=page]")?.innerText ?? "?"
                     }`
                 );
@@ -113,7 +114,7 @@
             }
         }
 
-        console.log(JSON.stringify(allData));
+        customLog("Output:\n", JSON.stringify(allData));
     }
 
     for (const course of INTERESTED_COURSES) {
