@@ -87,15 +87,18 @@
                         .querySelector("[data-attribute=vit_day]")
                         .innerText.replace(/\./g, "");
                     const time = meeting.querySelector("[data-attribute=vit_time]").innerText;
+                    const room = meeting.querySelector("[data-attribute=vit_room]").innerText;
 
                     classesArr.push({
                         teacher,
                         day,
                         time,
+                        room,
                     });
                 }
             }
 
+            customLog("Current output:\n", JSON.stringify(allData));
             const nextButton = document.querySelector("[aria-label='Next page']");
             if (
                 nextButton?.checkVisibility() &&
@@ -114,7 +117,7 @@
             }
         }
 
-        customLog("Output:\n", JSON.stringify(allData));
+        customLog("Current output:\n", JSON.stringify(allData));
     }
 
     for (const course of INTERESTED_COURSES) {
