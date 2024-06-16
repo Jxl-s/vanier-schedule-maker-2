@@ -4,13 +4,13 @@
 
     const allData = {};
 
-    const INTERESTED_COURSES = ["603-103-MQ", "420-101-VA", "420-511-VA"];
+    const INTERESTED_COURSES = ["609-HSA-VA", "502-211-VA", "603-102-MQ", "530-110-VA"];
 
     // helpers
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     const sleepUntilExist = async (selector) => {
         while (!document.querySelector(selector)) {
-            await sleep(100);
+            await sleep(500);
         }
     };
 
@@ -47,7 +47,7 @@
                         }
 
                         console.log("[Dumper] Waiting for iframe to load...");
-                    }, 500);
+                    }, 2000);
                 });
             };
 
@@ -94,7 +94,10 @@
             }
 
             const nextButton = document.querySelector("[aria-label='Next page']");
-            if (nextButton?.checkVisibility() && (!nextButton?.getAttribute("aria-disabled") ?? false)) {
+            if (
+                nextButton?.checkVisibility() &&
+                (!nextButton?.getAttribute("aria-disabled") ?? false)
+            ) {
                 nextButton.click();
 
                 await new Promise((resolve, reject) => setTimeout(resolve, 4000));
