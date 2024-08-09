@@ -10,8 +10,9 @@ const allData = {};
         const waitUntilLoad = () => {
             return new Promise((resolve, reject) => {
                 let interval = setInterval(() => {
-                    console.log(iframe.contentDocument
-                        .querySelector(".view-loading .message .text-center"));
+                    console.log(
+                        iframe.contentDocument.querySelector(".view-loading .message .text-center")
+                    );
                     if (
                         iframe.contentDocument.querySelectorAll("[data-entity=vit_meetingtime")
                             .length > 0 &&
@@ -62,15 +63,17 @@ const allData = {};
                 const teacher = meeting.querySelector("[data-attribute=vit_teacher]")?.innerText;
                 const day = meeting.querySelector("[data-attribute=vit_day]")?.innerText;
                 const time = meeting.querySelector("[data-attribute=vit_time]")?.innerText;
+                const room = meeting.querySelector("[data-attribute=vit_room]")?.innerText ?? "...";
 
                 if (!teacher || !day || !time) {
-                    continue
+                    continue;
                 }
 
                 classesArr.push({
                     teacher,
                     day,
                     time,
+                    room,
                 });
             }
         }
