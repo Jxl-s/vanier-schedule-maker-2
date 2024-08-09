@@ -1030,19 +1030,6 @@
     ],
     "109": [
         {
-            "section": "00002",
-            "courseId": "109-101-MQ",
-            "title": "Intensive:Hiking Day Trips",
-            "classes": [
-                {
-                    "teacher": "Longtin, Gregory",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-202"
-                }
-            ]
-        },
-        {
             "section": "00003",
             "courseId": "109-101-MQ",
             "title": "Fitness/Walking",
@@ -1058,96 +1045,6 @@
                     "day": "Fri",
                     "time": "14:00 - 16:00",
                     "room": "G-154"
-                }
-            ]
-        },
-        {
-            "section": "00004",
-            "courseId": "109-101-MQ",
-            "title": "Intensive: Fitness/Walking",
-            "classes": [
-                {
-                    "teacher": "Braul, Jessica",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-157"
-                },
-                {
-                    "teacher": "Braul, Jessica",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-154"
-                }
-            ]
-        },
-        {
-            "section": "00005",
-            "courseId": "109-101-MQ",
-            "title": "Intensive: Fitness/Walking/Yoga",
-            "classes": [
-                {
-                    "teacher": "Tzavellas, Georgia",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-154"
-                },
-                {
-                    "teacher": "Tzavellas, Georgia",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-157"
-                }
-            ]
-        },
-        {
-            "section": "00006",
-            "courseId": "109-101-MQ",
-            "title": "Intensive: Hiking/ Day Trips",
-            "classes": [
-                {
-                    "teacher": "Braul, Jessica",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-236"
-                }
-            ]
-        },
-        {
-            "section": "00007",
-            "courseId": "109-101-MQ",
-            "title": "Intensive: City Biking",
-            "classes": [
-                {
-                    "teacher": "Gribbon, Marie",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-202"
-                }
-            ]
-        },
-        {
-            "section": "00008",
-            "courseId": "109-101-MQ",
-            "title": "Intensive:Hiking Day Trips",
-            "classes": [
-                {
-                    "teacher": "Mitchell, William Kenneth",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-232"
-                }
-            ]
-        },
-        {
-            "section": "00009",
-            "courseId": "109-101-MQ",
-            "title": "Intensive:Intro Flat-Water Paddling",
-            "classes": [
-                {
-                    "teacher": "Pigott, Julie Lynn",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-232"
                 }
             ]
         },
@@ -1878,19 +1775,6 @@
             ]
         },
         {
-            "section": "00001",
-            "courseId": "109-102-MQ",
-            "title": "Intensive: Yoga Retreat",
-            "classes": [
-                {
-                    "teacher": "Stafford-Abbott, Joey",
-                    "day": "Sun.",
-                    "time": "13:00 - 13:30",
-                    "room": "G-202"
-                }
-            ]
-        },
-        {
             "section": "00003",
             "courseId": "109-102-MQ",
             "title": "Volleyball",
@@ -1900,90 +1784,6 @@
                     "day": "Fri",
                     "time": "8:00 - 10:00",
                     "room": "GYM_C"
-                }
-            ]
-        },
-        {
-            "section": "00004",
-            "courseId": "109-102-MQ",
-            "title": "Intensive: Mountain Biking",
-            "classes": [
-                {
-                    "teacher": "Longtin, Gregory",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "G-232"
-                }
-            ]
-        },
-        {
-            "section": "00005",
-            "courseId": "109-102-MQ",
-            "title": "Intensive:Canoe Skills",
-            "classes": [
-                {
-                    "teacher": "Mitchell, William Kenneth",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-106"
-                },
-                {
-                    "teacher": "Mitchell, William Kenneth",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-232"
-                }
-            ]
-        },
-        {
-            "section": "00006",
-            "courseId": "109-102-MQ",
-            "title": "Intensive: Orienteering",
-            "classes": [
-                {
-                    "teacher": "Oljemark, Thomas Edward",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-236"
-                }
-            ]
-        },
-        {
-            "section": "00007",
-            "courseId": "109-102-MQ",
-            "title": "Intensive: City Biking",
-            "classes": [
-                {
-                    "teacher": "Mitchell, William Kenneth",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "G-202"
-                }
-            ]
-        },
-        {
-            "section": "00008",
-            "courseId": "109-102-MQ",
-            "title": "Intensive: Orienteering",
-            "classes": [
-                {
-                    "teacher": "Oljemark, Thomas Edward",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-202"
-                }
-            ]
-        },
-        {
-            "section": "00009",
-            "courseId": "109-102-MQ",
-            "title": "Intensive: Hiking/Camping",
-            "classes": [
-                {
-                    "teacher": "McIntyre, Holly A",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-202"
                 }
             ]
         },
@@ -2534,135 +2334,6 @@
                     "day": "Mon",
                     "time": "8:00 - 10:00",
                     "room": "GYM_A"
-                }
-            ]
-        },
-        {
-            "section": "00002",
-            "courseId": "109-103-MQ",
-            "title": "Intensive - Canoe Camping",
-            "classes": [
-                {
-                    "teacher": "Stafford-Abbott, Joey",
-                    "day": "Sat.",
-                    "time": "13:30 - 14:00",
-                    "room": "G-02"
-                }
-            ]
-        },
-        {
-            "section": "00003",
-            "courseId": "109-103-MQ",
-            "title": "Intensive - Yoga Retreat",
-            "classes": [
-                {
-                    "teacher": "Stafford-Abbott, Joey",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "G-202"
-                }
-            ]
-        },
-        {
-            "section": "00004",
-            "courseId": "109-103-MQ",
-            "title": "Intensive: Outdoor Rock Climbing",
-            "classes": [
-                {
-                    "teacher": "Mitchell, William Kenneth",
-                    "day": "Tue",
-                    "time": "16:00 - 18:00",
-                    "room": "G-202"
-                },
-                {
-                    "teacher": "Mitchell, William Kenneth",
-                    "day": "Sat.",
-                    "time": "9:30 - 10:00",
-                    "room": "G-202"
-                }
-            ]
-        },
-        {
-            "section": "00005",
-            "courseId": "109-103-MQ",
-            "title": "Intensive: Canoe Camping",
-            "classes": [
-                {
-                    "teacher": "Woodward, Peter James",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "G-236"
-                }
-            ]
-        },
-        {
-            "section": "00006",
-            "courseId": "109-103-MQ",
-            "title": "Intensive: Fitness/ Walking",
-            "classes": [
-                {
-                    "teacher": "Marta, Julia",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-154"
-                },
-                { "teacher": "Marta, Julia", "day": "Sat.", "time": "8:30 - 9:00", "room": "G-157" }
-            ]
-        },
-        {
-            "section": "00007",
-            "courseId": "109-103-MQ",
-            "title": "Intensive:Fitness/Stress Management",
-            "classes": [
-                {
-                    "teacher": "Tzavellas, Georgia",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "G-157"
-                },
-                {
-                    "teacher": "Tzavellas, Georgia",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "G-154"
-                }
-            ]
-        },
-        {
-            "section": "00008",
-            "courseId": "109-103-MQ",
-            "title": "Intensive:Hiking /Day Trips",
-            "classes": [
-                {
-                    "teacher": "Pigott, Julie Lynn",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-157"
-                },
-                {
-                    "teacher": "Pigott, Julie Lynn",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-154"
-                }
-            ]
-        },
-        {
-            "section": "00009",
-            "courseId": "109-103-MQ",
-            "title": "Intensive:Hiking /Day Trips",
-            "classes": [
-                {
-                    "teacher": "Pigott, Julie Lynn",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-157"
-                },
-                {
-                    "teacher": "Pigott, Julie Lynn",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "G-154"
                 }
             ]
         },
@@ -4614,113 +4285,6 @@
                     "day": "Mon",
                     "time": "14:30 - 17:30",
                     "room": "N-326"
-                }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "145-614-VA",
-            "title": "Terrestrial Plant Ecology and Inventory",
-            "classes": [
-                {
-                    "teacher": "Adams, Benjamin Jacob",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "FIELD"
-                },
-                {
-                    "teacher": "Adams, Benjamin Jacob",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "FIELD"
-                },
-                {
-                    "teacher": "Cloutier, Christopher Allen",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "FIELD"
-                },
-                {
-                    "teacher": "Cloutier, Christopher Allen",
-                    "day": "Sat.",
-                    "time": "8:00 - 8:30",
-                    "room": "FIELD"
-                }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "145-615-VA",
-            "title": "Mammal Management Techniques",
-            "classes": [
-                {
-                    "teacher": "Lang, Jessica",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "FIELD"
-                },
-                {
-                    "teacher": "Lang, Jessica",
-                    "day": "Sat.",
-                    "time": "8:30 - 9:00",
-                    "room": "FIELD"
-                }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "145-616-VA",
-            "title": "Ecosystem Project",
-            "classes": [
-                {
-                    "teacher": "Cloutier, Christopher Allen",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "FIELD"
-                },
-                {
-                    "teacher": "Lang, Jessica",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "FIELD"
-                },
-                {
-                    "teacher": "Lang, Jessica",
-                    "day": "Sat.",
-                    "time": "9:00 - 9:30",
-                    "room": "FIELD"
-                }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "145-617-VA",
-            "title": "Fisheries Management Techniques",
-            "classes": [
-                {
-                    "teacher": "Lang, Jessica",
-                    "day": "Sat.",
-                    "time": "9:30 - 10:00",
-                    "room": "FIELD"
-                }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "145-618-VA",
-            "title": "Using Field Equipment II",
-            "classes": [
-                {
-                    "teacher": "Cloutier, Christopher Allen",
-                    "day": "Sat.",
-                    "time": "10:00 - 10:30",
-                    "room": "FIELD"
-                },
-                {
-                    "teacher": "Lemieux Lefebvre, Sebastien",
-                    "day": "Sat.",
-                    "time": "10:00 - 10:30",
-                    "room": "FIELD"
                 }
             ]
         }
@@ -29561,14 +29125,6 @@
         },
         {
             "section": "00001",
-            "courseId": "LCL-CLA-02",
-            "title": "Accompaniment Lab 2- Classical Clarinet",
-            "classes": [
-                { "teacher": "Shin, Minna", "day": "Sat.", "time": "8:00 - 9:00", "room": "A-250" }
-            ]
-        },
-        {
-            "section": "00001",
             "courseId": "LCL-CLA-03",
             "title": "Lit Instrument Lab 3 - Classical Clarinet",
             "classes": [
@@ -29591,14 +29147,6 @@
                     "time": "10:30 - 11:30",
                     "room": "A-250"
                 }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "LCL-FLU-02",
-            "title": "Accompaniment Lab 2 - Classical Flute",
-            "classes": [
-                { "teacher": "Shin, Minna", "day": "Sat.", "time": "8:00 - 9:00", "room": "A-250" }
             ]
         },
         {
@@ -29694,14 +29242,6 @@
         },
         {
             "section": "00001",
-            "courseId": "LCL-VOI-02",
-            "title": "Accompaniment Lab 2 -Classical Voice",
-            "classes": [
-                { "teacher": "Shin, Minna", "day": "Sat.", "time": "8:00 - 9:00", "room": "A-250" }
-            ]
-        },
-        {
-            "section": "00001",
             "courseId": "LCL-VOI-03",
             "title": "Lit Instrument Lab 3 - Classical Voice",
             "classes": [
@@ -29715,19 +29255,6 @@
         }
     ],
     "LJZ": [
-        {
-            "section": "00001",
-            "courseId": "LJZ-BAS-04",
-            "title": "Instrument Lab 4 Jazz Double Bass",
-            "classes": [
-                {
-                    "teacher": "Linsley, Chad Lamplugh",
-                    "day": "Sat.",
-                    "time": "9:00 - 10:00",
-                    "room": "A-254"
-                }
-            ]
-        },
         {
             "section": "00001",
             "courseId": "LJZ-DRM-01",
@@ -29847,19 +29374,6 @@
         },
         {
             "section": "00001",
-            "courseId": "LJZ-ELG-02",
-            "title": "Instrument Lab 2 Electric Guitar",
-            "classes": [
-                {
-                    "teacher": "De Masi, Michele",
-                    "day": "Sat.",
-                    "time": "10:00 - 11:00",
-                    "room": "A-250"
-                }
-            ]
-        },
-        {
-            "section": "00001",
             "courseId": "LJZ-ELG-03",
             "title": "Lit Instrument Lab 3 - Electric Guitar",
             "classes": [
@@ -29868,19 +29382,6 @@
                     "day": "Fri",
                     "time": "13:00 - 14:00",
                     "room": "A-204"
-                }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "LJZ-ELG-04",
-            "title": "Instrument Lab 4 Electric Guitar",
-            "classes": [
-                {
-                    "teacher": "De Masi, Michele",
-                    "day": "Sat.",
-                    "time": "10:00 - 11:00",
-                    "room": "A-250"
                 }
             ]
         },
@@ -29919,19 +29420,6 @@
                     "teacher": "Lozano, Francisco",
                     "day": "Thu",
                     "time": "12:00 - 13:00",
-                    "room": "A-254"
-                }
-            ]
-        },
-        {
-            "section": "00001",
-            "courseId": "LJZ-SAX-02",
-            "title": "Accompaniment Lab 2 - Jazz Saxophone",
-            "classes": [
-                {
-                    "teacher": "Linsley, Chad Lamplugh",
-                    "day": "Sat.",
-                    "time": "9:00 - 10:00",
                     "room": "A-254"
                 }
             ]
