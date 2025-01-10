@@ -60,8 +60,8 @@ function CourseDisplay({ course, data, onSectionChange, onDelete }: CourseDispla
                         course.section === -1
                             ? sectionOptions[sectionOptions.length - 1]
                             : sectionOptions.find((e) =>
-                                  e.startsWith(addLeadingZeros(course.section))
-                              )
+                                e.startsWith(addLeadingZeros(course.section))
+                            )
                     }
                     onChange={(selected) => {
                         // split before the first dash
@@ -119,6 +119,12 @@ export default function Schedules() {
 
         const allSavedJson = JSON.parse(allSaved);
 
+        // Check for duplicate saveName
+        if (allSavedJson[saveName]) {
+            alert("A schedule with this name already exists. Please choose a different name.");
+            return;
+        }
+
         // Save the course data
         const localObject: any = {};
         courseData.forEach((value, key) => {
@@ -145,6 +151,17 @@ export default function Schedules() {
         setCurrentCourses(savedSchedule.courses);
         setCourseData(new Map(Object.entries(savedSchedule.data)));
     };
+
+    const deleteSchedule = (name: string) => {
+        let allSaved = localStorage.getItem("savedSchedules");
+        if (!allSaved) allSaved = "{}";
+
+        const allSavedJson = JSON.parse(allSaved);
+        delete allSavedJson[name];
+
+        localStorage.setItem("savedSchedules", JSON.stringify(allSavedJson));
+        loadSavedSchedules();
+    }
 
     useEffect(() => {
         const courseDataString = localStorage.getItem("courseData");
@@ -423,18 +440,37 @@ export default function Schedules() {
                             Load
                         </p>
                         <div className="grid lg:grid-cols-4 gap-2">
-                            {savedSchedules.map((schedule, i) => (
-                                <Button
-                                    variant="solid"
-                                    color="primary"
-                                    className="w-full mt-2"
-                                    key={i}
-                                    onClick={() => loadSchedule(schedule)}
-                                >
-                                    {schedule}
-                                </Button>
-                            ))}
+                            {savedSchedules.length === 0 ? (
+                                <p className="text-center col-span-4 opacity-50 my-10">No saved schedules</p>
+                            ) :
+                                savedSchedules.map((schedule, i) => (
+                                    <div key={i} className="relative">
+                                        <Button
+                                            variant="solid"
+                                            color="primary"
+                                            className="w-full mt-2"
+                                            onClick={() => loadSchedule(schedule)}
+                                        >
+                                            {schedule}
+                                        </Button>
+                                        <div
+                                            className="absolute top-0 right-0 bg-red-600 rounded-full w-5 h-5 flex items-center justify-center text-sm font-mono hover:cursor-pointer hover:bg-red-300"
+                                            onClick={() => deleteSchedule(schedule)}
+                                        >
+                                            x
+                                        </div>
+                                    </div>
+
+                                ))}
                         </div>
+                        <div className="text-2xl pb-1 border-zinc-500 border-b mb-4 text-center mt-3" />
+                        <p>
+                            The source code of the project can be found at <a href="https://github.com/Jxl-s/vanier-schedule-maker-2" className="text-blue-400 hover:text-blue-100" target="_blank">https://github.com/Jxl-s/vanier-schedule-maker-2</a>
+                            <br />
+                            It was originally developed in a single day, so the interface and features are very basic.
+                        </p>
+                        <br />
+                        <p>Check out my personal website at <a href="https://jiaxuan-li.com" className="text-blue-400 hover:text-blue-100" target="_blank">https://jiaxuan-li.com</a></p>
                     </div>
                 </div>
                 <div className="w-full col-span-2 xl:col-span-1 mt-2 xl:mt-0">
