@@ -1,8 +1,8 @@
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
-  title: 'Vanier course selector',
-  description: 'A simple schedule maker for courses at Vanier College',
+  title: 'Vanier Schedule Builder',
+  description: 'A schedule builder for Vanier College, with an interface like Omnivox',
 }
 
 export default function RootLayout({
