@@ -3,6 +3,11 @@ import Period from "./Period.js";
 
 export default class Course {
 	constructor({ section, courseId, seats, title, restriction, infoId }) {
+		const schedule = Schedule.instance;
+		if (schedule.cache.has("course_" + infoId)) {
+			return schedule.cache.get("course_" + infoId);
+		}
+
 		this.section = section;
 		this.courseId = courseId;
 		this.seats = seats;
@@ -14,6 +19,10 @@ export default class Course {
 	}
 
 	async init() {
+		if (this.periods.length > 0) {
+			return;
+		}
+
 		const schedule = Schedule.instance;
 
 		// Get the tokens
@@ -75,5 +84,7 @@ export default class Course {
 
 			this.periods.push(periodObj);
 		}
+
+		schedule.cache.set("course_" + this.infoId, this);
 	}
 }

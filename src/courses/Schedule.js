@@ -1,4 +1,5 @@
 import Course from "./Course.js";
+import { LRUCache } from "lru-cache";
 
 function base64DecodeUnicode(e) {
 	return decodeURIComponent(
@@ -25,6 +26,11 @@ export class Schedule {
 
 		this.headerToken = "";
 		this.cookieToken = "";
+
+		this.cache = new LRUCache({
+			max: 500,
+			ttl: 1000 * 60 * 5, // 15 minutes
+		});
 
 		this.updatedAt = undefined;
 
@@ -174,11 +180,15 @@ if (import.meta.url === new URL(import.meta.url, import.meta.url).href) {
 	const schedule = new Schedule();
 	await schedule.init();
 
-	const results = await schedule.search({
-		page: 1,
-		pageSize: 50,
-		search: "420-101-VA",
-	});
+	for (let i = 0; i < 100; i++) {
+		const results = await schedule.search({
+			page: 1,
+			pageSize: 50,
+			search: "420-101-VA",
+		});
+
+		console.log("DONE ONCE", i);
+	}
 
 	console.log(JSON.stringify(results));
 }
