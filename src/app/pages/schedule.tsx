@@ -504,6 +504,18 @@ export default function Schedules() {
 						</div>
 						<div className="text-2xl pb-1 border-zinc-500 border-b mb-4 text-center mt-3" />
 						<p>
+							P.S. There exists an unofficial Vanier Discord
+							server, at{" "}
+							<a
+								href="https://discord.gg/QXbe4dqyr4"
+								className="text-blue-400 hover:text-blue-100"
+								target="_blank"
+							>
+								https://discord.gg/QXbe4dqyr4
+							</a>
+						</p>
+						<br />
+						<p>
 							The source code of the project can be found at{" "}
 							<a
 								href="https://github.com/Jxl-s/vanier-schedule-maker-2"
@@ -515,18 +527,6 @@ export default function Schedules() {
 							<br />
 							It was originally developed in a single day, so the
 							interface and features are very basic.
-						</p>
-						<br />
-						<p>
-							P.S. There exists an unofficial Vanier Discord
-							server, at{" "}
-							<a
-								href="https://discord.gg/QXbe4dqyr4"
-								className="text-blue-400 hover:text-blue-100"
-								target="_blank"
-							>
-								https://discord.gg/QXbe4dqyr4
-							</a>
 						</p>
 					</div>
 				</div>
