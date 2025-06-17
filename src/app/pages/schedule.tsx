@@ -518,13 +518,14 @@ export default function Schedules() {
 						</p>
 						<br />
 						<p>
-							Check out my personal website at{" "}
+							P.S. There exists an unofficial Vanier Discord
+							server, at{" "}
 							<a
-								href="https://www.jiaxuan.li"
+								href="https://discord.gg/QXbe4dqyr4"
 								className="text-blue-400 hover:text-blue-100"
 								target="_blank"
 							>
-								https://www.jiaxuan.li
+								https://discord.gg/QXbe4dqyr4
 							</a>
 						</p>
 					</div>
