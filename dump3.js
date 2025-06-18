@@ -157,9 +157,8 @@ async function dump(clear = true) {
 				(attr) => attr.Name === "vit_room",
 			)?.Value;
 
-			if (!teacher || !day || !time || !room) {
-				continue;
-			}
+			if (!teacher || !day || !time || !room) continue;
+			if (day === "Sat" || day === "Sun") continue;
 
 			classes.push({
 				teacher,
