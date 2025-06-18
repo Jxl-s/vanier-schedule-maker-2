@@ -201,6 +201,7 @@ async function dump(clear = true) {
 				pageDump[department] = [];
 			}
 
+			if (allClasses[index].length === 0) continue;
 			pageDump[department].push({
 				section: course.section,
 				title: course.title,
