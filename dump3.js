@@ -240,5 +240,4 @@ async function join() {
 	fs.writeFileSync("dump-courses.json", JSON.stringify(output));
 }
 
-//dump(true);
-join();
+dump(true).then(() => join());
