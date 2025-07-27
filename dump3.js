@@ -1,3 +1,5 @@
+#!/Users/jxl/.nvm/versions/node/v22.13.0/bin/node
+
 const fs = require("fs");
 
 async function dump(clear = true) {
