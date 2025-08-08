@@ -385,10 +385,10 @@ export default function Schedules() {
 		<MainLayout>
 			<div className="grid grid-cols-2">
 				<div className="w-full col-span-2 xl:col-span-1">
-					<div>
-						<p className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
+					<section>
+						<h2 className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
 							Course Selector
-						</p>
+						</h2>
 						<div>
 							<p>Add a course</p>
 							<div>
@@ -411,11 +411,11 @@ export default function Schedules() {
 								</Button>
 							</div>
 						</div>
-					</div>
-					<div className="mt-4">
-						<p className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
+					</section>
+					<section className="mt-4">
+						<h2 className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
 							Current Courses
-						</p>
+						</h2>
 						<div>
 							{currentCourses.map((course, i) => {
 								const data = courseData.get(course.course);
@@ -448,11 +448,11 @@ export default function Schedules() {
 							There are currently {currentCombinations.length}{" "}
 							possible schedule(s)
 						</p>
-					</div>
-					<div className="mt-4">
-						<p className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
-							Save
-						</p>
+					</section>
+					<section className="mt-4">
+						<h2 className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
+							Save Schedule
+						</h2>
 						<Input
 							label="Schedule Name"
 							placeholder="Name here"
@@ -467,11 +467,11 @@ export default function Schedules() {
 						>
 							Save
 						</Button>
-					</div>
-					<div className="mt-4">
-						<p className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
-							Load
-						</p>
+					</section>
+					<section className="mt-4">
+						<h2 className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
+							Load Saved Schedule
+						</h2>
 						<div className="grid lg:grid-cols-4 gap-2">
 							{savedSchedules.length === 0 ? (
 								<p className="text-center col-span-4 opacity-50 my-10">
@@ -502,38 +502,13 @@ export default function Schedules() {
 								))
 							)}
 						</div>
-						<div className="text-2xl pb-1 border-zinc-500 border-b mb-4 text-center mt-3" />
-						<p>
-							P.S. There exists an unofficial Vanier Discord
-							server, at{" "}
-							<a
-								href="https://discord.gg/QXbe4dqyr4"
-								className="text-blue-400 hover:text-blue-100"
-								target="_blank"
-							>
-								https://discord.gg/QXbe4dqyr4
-							</a>
-						</p>
-						<br />
-						<p>
-							The source code of the project can be found at{" "}
-							<a
-								href="https://github.com/Jxl-s/vanier-schedule-maker-2"
-								className="text-blue-400 hover:text-blue-100"
-								target="_blank"
-							>
-								https://github.com/Jxl-s/vanier-schedule-maker-2
-							</a>
-							<br />
-							It was originally developed in a single day, so the
-							interface and features are very basic.
-						</p>
-					</div>
+					</section>
 				</div>
 				<div className="w-full col-span-2 xl:col-span-1 mt-2 xl:mt-0">
-					<p className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
-						Schedule Visualizer
-					</p>
+					<section>
+						<h2 className="text-2xl pb-1 border-zinc-500 border-b mb-2 text-center">
+							Schedule Visualizer
+						</h2>
 					<div className="w-10/12 mx-auto">
 						<Schedule
 							data={currentCombinations[combIdx - 1] ?? []}
@@ -584,8 +559,9 @@ export default function Schedules() {
 							)}
 						</span>
 					</div>
-				</div>
+				</section>
 			</div>
+		</div>
 		</MainLayout>
 	);
 }

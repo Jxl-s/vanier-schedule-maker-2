@@ -1,0 +1,24 @@
+{
+  "name": "Vanier Schedule Builder",
+  "short_name": "Vanier Schedule",
+  "description": "Build and visualize your perfect Vanier College schedule with our free schedule maker.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#18181b",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "categories": ["education", "productivity"],
+  "lang": "en-CA",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

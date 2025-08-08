@@ -2,13 +2,17 @@ import dump from "../../../../../dump-courses.json";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request, ctx: any) {
+    // Add no-index header to prevent search engine indexing
+    const headers = new Headers();
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+    
     // Get the course ID
     const courseId = ctx.params.courseId;
     const courseDept = courseId.split("-")[0];
 
     const dumpDept = dump[courseDept as never] as any[];
     if (!dumpDept) {
-        return NextResponse.json({ code: 404, data: [] });
+        return NextResponse.json({ code: 404, data: [] }, { headers });
     }
 
     // Find all courses corresponding to the course ID
@@ -62,5 +66,5 @@ export async function GET(request: Request, ctx: any) {
         };
     });
 
-    return NextResponse.json({ code: 200, data: returnedData });
+    return NextResponse.json({ code: 200, data: returnedData }, { headers });
 }
