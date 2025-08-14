@@ -1,0 +1,51 @@
+name: Dump and Update
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"  # every 10 minutes
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run dump script
+        run: |
+          chmod +x ./dump3.js
+          node ./dump3.js
+
+      - name: Check if last commit was from GitHub Actions
+        id: check_commit
+        run: |
+          LAST_AUTHOR=$(git log -1 --pretty=format:'%an')
+          if [[ "$LAST_AUTHOR" == "github-actions[bot]" ]]; then
+            echo "amend=true" >> $GITHUB_OUTPUT
+          else
+            echo "amend=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit changes
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .
+            if [ "${{ steps.check_commit.outputs.amend }}" = "true" ]; then
+              git commit --amend --no-edit
+              git push --force
+            else
+              git commit -m "Automated dump update"
+              git push
+            fi
+          else
+            echo "No changes to commit."
+          fi
