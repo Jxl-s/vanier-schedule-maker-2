@@ -2,7 +2,7 @@ name: Dump and Update
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # every 10 minutes
+    - cron: "0 * * * *"
 
 jobs:
   dump:
