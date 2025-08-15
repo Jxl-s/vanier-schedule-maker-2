@@ -4,7 +4,7 @@ const fs = require("fs");
 
 async function dump(clear = true) {
 	const BASE_URL = "https://vanierlivecourseschedule.powerappsportals.com";
-	const FORM_ID = "64153239-ba95-ed11-aad1-0022486daee2";
+	const FORM_ID = process.argv[2];
 
 	function base64DecodeUnicode(e) {
 		return decodeURIComponent(

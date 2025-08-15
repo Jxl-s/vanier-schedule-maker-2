@@ -23,7 +23,7 @@ jobs:
       - name: Run dump script
         run: |
           chmod +x ./dump3.js
-          node ./dump3.js
+          node ./dump3.js ${{ secrets.FORM }}
 
       - name: Check if last commit was from GitHub Actions
         id: check_commit
