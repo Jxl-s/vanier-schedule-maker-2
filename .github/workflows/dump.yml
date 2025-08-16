@@ -25,7 +25,7 @@ jobs:
           chmod +x ./dump3.js
           node ./dump3.js ${{ secrets.FORM }}
 
-      - name: Check if last commit was from GitHub Actions
+      - name: Check latest commit author
         id: check_commit
         run: |
           LAST_AUTHOR=$(git log -1 --pretty=format:'%an')
