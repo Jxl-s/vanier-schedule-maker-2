@@ -48,7 +48,7 @@ export async function GET(request: Request, ctx: any) {
             section: parseInt(course.section.replace(/^0+/, "")),
             id: course.courseId.toUpperCase(),
             // teacher: course.classes[0]?.teacher ?? "No Teacher",
-            teacher: "",
+            teacher: "hidden for privacy",
             periods: course.classes.map((period: any) => {
                 const timeSplit = period.time.split(" - ");
                 const startSplit = timeSplit[0].split(":");
