@@ -43,6 +43,18 @@ export default function SavedSchedules({
 		setMessage("Saved.");
 	}
 
+	function handleLoad(savedName: string) {
+		if (window.confirm(`Are you sure you want to load "${savedName}"?`)) {
+			onLoad(savedName);
+		}
+	}
+
+	function handleDelete(savedName: string) {
+		if (window.confirm(`Are you sure you want to delete "${savedName}"?`)) {
+			onDelete(savedName);
+		}
+	}
+
 	return (
 		<Card className="overflow-hidden">
 			<CardHeader className="bg-muted/45 p-3">
@@ -78,7 +90,7 @@ export default function SavedSchedules({
 							<div className="flex items-center gap-1" key={savedName}>
 								<Button
 									className="h-8 min-w-0 flex-1 justify-start px-2 text-xs"
-									onClick={() => onLoad(savedName)}
+									onClick={() => handleLoad(savedName)}
 									variant="outline"
 								>
 									<FolderOpen className="mr-1.5 h-3.5 w-3.5 shrink-0" />
@@ -87,7 +99,7 @@ export default function SavedSchedules({
 								<Button
 									aria-label={"Delete saved schedule " + savedName}
 									className="h-8 w-8 text-muted-foreground hover:text-destructive"
-									onClick={() => onDelete(savedName)}
+									onClick={() => handleDelete(savedName)}
 									size="icon"
 									variant="ghost"
 								>

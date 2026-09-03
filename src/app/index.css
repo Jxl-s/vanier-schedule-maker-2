@@ -92,6 +92,8 @@
 }
 
 .schedule-scroll {
+	container-type: inline-size;
+	container-name: schedule;
 	overscroll-behavior-x: contain;
 	scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--muted));
 	scrollbar-width: thin;
@@ -110,6 +112,7 @@
 	background: hsl(var(--schedule-background));
 	color: hsl(var(--schedule-foreground));
 	font-size: 0.68rem;
+	table-layout: fixed;
 }
 
 .schedule-table th,
@@ -152,12 +155,35 @@
 	background: hsl(var(--schedule-course));
 	font-size: 0.64rem;
 	line-height: 1.25;
+	overflow-wrap: anywhere;
 	padding: 3px;
 	vertical-align: middle;
 }
 
 .schedule-table .course-cell strong {
 	font-weight: 700;
+}
+
+	@media (max-width: 640px) {
+	.schedule-table {
+		font-size: clamp(0.46rem, 2cqw, 0.64rem);
+	}
+
+	.schedule-table thead th {
+		height: 24px;
+		font-size: clamp(0.48rem, 2.2cqw, 0.68rem);
+	}
+
+	.schedule-table .time-column {
+		width: 38px;
+		font-size: clamp(0.42rem, 1.7cqw, 0.54rem);
+	}
+
+	.schedule-table .course-cell {
+		font-size: clamp(0.46rem, 2cqw, 0.64rem);
+		line-height: 1.1;
+		padding: 2px;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

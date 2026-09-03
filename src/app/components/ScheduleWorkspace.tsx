@@ -70,9 +70,6 @@ export default function ScheduleWorkspace({
 
 			<CardContent className="p-0">
 				<div className="schedule-surface p-2">
-					<p className="mb-1 text-right text-[10px] text-muted-foreground sm:hidden">
-						Scroll horizontally to view the week →
-					</p>
 					<Schedule data={schedule} />
 				</div>
 

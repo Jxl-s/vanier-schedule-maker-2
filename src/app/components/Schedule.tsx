@@ -71,11 +71,11 @@ export default function Schedule({ data }: ScheduleProps) {
 	return (
 		<div
 			aria-label="Weekly schedule"
-			className="schedule-scroll overflow-x-auto"
+			className="schedule-scroll overflow-hidden"
 			role="region"
 			tabIndex={0}
 		>
-			<table className="schedule-table w-full min-w-[680px] table-fixed border-collapse">
+			<table className="schedule-table w-full table-fixed border-collapse">
 				<caption className="sr-only">
 					Weekly course schedule from 8:00 to 18:00
 				</caption>

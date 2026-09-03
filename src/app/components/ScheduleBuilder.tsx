@@ -260,6 +260,9 @@ export default function ScheduleBuilder({
 						onLoad={loadSchedule}
 						onSave={saveSchedule}
 					/>
+					<div className="hidden lg:block">
+						<UsefulLinks />
+					</div>
 				</aside>
 
 				<ScheduleWorkspace
@@ -277,7 +280,7 @@ export default function ScheduleBuilder({
 					truncated={generation.truncated}
 				/>
 
-				<div className="lg:col-start-1 lg:row-start-2">
+				<div className="lg:hidden">
 					<UsefulLinks />
 				</div>
 			</div>
