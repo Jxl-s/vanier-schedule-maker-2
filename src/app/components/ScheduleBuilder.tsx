@@ -277,13 +277,15 @@ export default function ScheduleBuilder({
 						</CardContent>
 					</Card>
 
-					<SavedSchedules
-						names={Object.keys(savedSchedules)}
-						onDelete={deleteSchedule}
-						onLoad={loadSchedule}
-						onRename={renameSchedule}
-						onSave={saveSchedule}
-					/>
+					<div className="hidden lg:block">
+						<SavedSchedules
+							names={Object.keys(savedSchedules)}
+							onDelete={deleteSchedule}
+							onLoad={loadSchedule}
+							onRename={renameSchedule}
+							onSave={saveSchedule}
+						/>
+					</div>
 					<div className="hidden lg:block">
 						<UsefulLinks />
 					</div>
@@ -304,6 +306,16 @@ export default function ScheduleBuilder({
 					total={generation.schedules.length}
 					truncated={generation.truncated}
 				/>
+
+				<div className="lg:hidden">
+					<SavedSchedules
+						names={Object.keys(savedSchedules)}
+						onDelete={deleteSchedule}
+						onLoad={loadSchedule}
+						onRename={renameSchedule}
+						onSave={saveSchedule}
+					/>
+				</div>
 
 				<div className="lg:hidden">
 					<UsefulLinks />
