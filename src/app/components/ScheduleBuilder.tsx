@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Code2, Loader2, Plus } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Code2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -107,17 +107,13 @@ export default function ScheduleBuilder({
 		};
 	}, [isHydrated, selections, catalog, setCatalog]);
 
-	async function handleAddCourse(event: FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-		const normalizedCode = normalizeCourseCode(courseCode);
-
-		if (!normalizedCode) {
-			setStatus({ tone: "error", message: "Enter a course code." });
-			return;
-		}
+	async function addCourse(code: string) {
+		const normalizedCode = normalizeCourseCode(code);
+		if (!normalizedCode) return;
 
 		if (selections.some((selection) => selection.course === normalizedCode)) {
 			setStatus({ tone: "error", message: normalizedCode + " is already added." });
+			setCourseCode("");
 			return;
 		}
 
@@ -255,22 +251,18 @@ export default function ScheduleBuilder({
 							</span>
 						</CardHeader>
 						<CardContent className="p-3">
-							<form className="flex gap-2" onSubmit={handleAddCourse}>
+							<div className="relative flex gap-2">
 								<CourseAutocomplete
 									courses={courseSuggestions}
 									disabled={isLoading}
 									onChange={setCourseCode}
+									onSelect={(course) => addCourse(course.id)}
 									value={courseCode}
 								/>
-								<Button className="h-8 shrink-0 px-3" disabled={isLoading} size="sm" type="submit">
-									{isLoading ? (
-										<Loader2 className="h-3.5 w-3.5 animate-spin" />
-									) : (
-										<Plus className="h-3.5 w-3.5" />
-									)}
-									Add
-								</Button>
-							</form>
+								{isLoading ? (
+									<Loader2 className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 animate-spin text-muted-foreground" />
+								) : null}
+							</div>
 
 							{status ? (
 								<p

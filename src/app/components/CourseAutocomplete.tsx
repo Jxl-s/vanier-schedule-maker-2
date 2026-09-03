@@ -15,6 +15,7 @@ interface CourseAutocompleteProps {
 	courses: CourseSuggestion[];
 	disabled?: boolean;
 	onChange: (value: string) => void;
+	onSelect: (course: CourseSuggestion) => void;
 	value: string;
 }
 
@@ -22,6 +23,7 @@ export default function CourseAutocomplete({
 	courses,
 	disabled,
 	onChange,
+	onSelect,
 	value,
 }: CourseAutocompleteProps) {
 	const listboxId = useId();
@@ -30,11 +32,9 @@ export default function CourseAutocomplete({
 	const [isFocused, setIsFocused] = useState(false);
 
 	const suggestions = useMemo(() => {
+		if (isDismissed) return [];
 		const normalizedQuery = normalizeCourseCode(value);
 		const titleQuery = value.trim().toLowerCase();
-		if (isDismissed || (normalizedQuery.length < 2 && titleQuery.length < 2)) {
-			return [];
-		}
 
 		return courses
 			.filter(
@@ -51,9 +51,9 @@ export default function CourseAutocomplete({
 	}, [courses, isDismissed, value]);
 
 	function chooseCourse(course: CourseSuggestion) {
-		onChange(course.id);
 		setIsDismissed(true);
 		setActiveIndex(-1);
+		onSelect(course);
 	}
 
 	function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
@@ -67,9 +67,9 @@ export default function CourseAutocomplete({
 			setActiveIndex((current) =>
 				current <= 0 ? suggestions.length - 1 : current - 1,
 			);
-		} else if (event.key === "Enter" && activeIndex >= 0) {
+		} else if (event.key === "Enter") {
 			event.preventDefault();
-			chooseCourse(suggestions[activeIndex]);
+			chooseCourse(suggestions[activeIndex >= 0 ? activeIndex : 0]);
 		} else if (event.key === "Escape") {
 			setIsDismissed(true);
 			setActiveIndex(-1);
@@ -107,7 +107,7 @@ export default function CourseAutocomplete({
 					setIsDismissed(false);
 				}}
 				onKeyDown={handleKeyDown}
-				placeholder="420-101-VA"
+				placeholder="Type course name or ID..."
 				role="combobox"
 				spellCheck={false}
 				type="search"
