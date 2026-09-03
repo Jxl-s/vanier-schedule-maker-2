@@ -1,10 +1,11 @@
-import { MetadataRoute } from 'next'
- 
+import type { MetadataRoute } from "next";
+import { siteConfig } from "@/lib/site";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://vanier-schedule-maker-2.vercel.app',
-      lastModified: new Date(),
-    },
-  ]
+	return [
+		{
+			url: siteConfig.url,
+			lastModified: new Date(),
+		},
+	];
 }

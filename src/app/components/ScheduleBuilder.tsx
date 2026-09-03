@@ -12,6 +12,7 @@ import {
 import { useScheduleStorage } from "@/hooks/use-schedule-storage";
 import { normalizeCourseCode } from "@/lib/course-code";
 import { generateValidSchedules } from "@/lib/schedule";
+import { siteConfig } from "@/lib/site";
 import type { CourseResponse, CourseSuggestion } from "@/types/schedule";
 import CourseCard from "./CourseCard";
 import CourseAutocomplete from "./CourseAutocomplete";
@@ -160,9 +161,9 @@ export default function ScheduleBuilder({
 			<header className="app-header bg-card">
 				<div className="mx-auto flex max-w-[1440px] items-center justify-between px-3 py-3 sm:px-4">
 					<div>
-						<h1 className="text-base font-semibold">Vanier Schedule Builder</h1>
+						<h1 className="text-base font-semibold">{siteConfig.name}</h1>
 						<p className="text-xs text-muted-foreground">
-							Unofficial tool for comparing course sections
+							{siteConfig.shortDescription}
 						</p>
 					</div>
 					<div className="flex items-center gap-1">
@@ -183,8 +184,8 @@ export default function ScheduleBuilder({
 
 			<div className="mx-auto grid max-w-[1440px] items-start gap-3 p-3 sm:gap-4 sm:p-4 lg:grid-cols-[340px_minmax(0,1fr)]">
 				<aside className="space-y-3">
-					<Card className="overflow-hidden">
-						<CardHeader className="flex-row items-center justify-between space-y-0 bg-muted/45 p-3">
+					<Card className="overflow-visible">
+						<CardHeader className="flex-row items-center justify-between space-y-0 rounded-t-lg bg-muted/45 p-3">
 							<CardTitle className="text-sm">Course Selector</CardTitle>
 							<span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary dark:bg-primary/20">
 								{selections.length} selected
