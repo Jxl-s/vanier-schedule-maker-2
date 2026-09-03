@@ -31,6 +31,7 @@ export default function CourseCard({
 		activeSection ??
 		sections.find((section) => section.section === selection.section) ??
 		sections[0];
+	const isLoading = sections.length === 0;
 	const teacherRating = selectedSection?.teacherRating;
 	const displayRating =
 		teacherRating?.rating != null && (teacherRating.reviewCount ?? 0) > 0
@@ -46,7 +47,9 @@ export default function CourseCard({
 						{selection.course}
 					</p>
 					<p className="truncate text-xs text-muted-foreground">
-						{selectedSection?.title ?? "Course title unavailable"}
+						{isLoading
+							? "Loading..."
+							: selectedSection?.title ?? "Course title unavailable"}
 					</p>
 					{selectedSection?.teacher ? (
 						<div className="mt-1 flex items-center gap-1.5 text-[11px]">
