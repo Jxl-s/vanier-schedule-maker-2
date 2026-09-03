@@ -13,6 +13,14 @@ export interface CourseSection {
 	teacher: string;
 	id: string;
 	periods: CoursePeriod[];
+	teacherRating?: TeacherRating | null;
+}
+
+export interface TeacherRating {
+	name?: string;
+	rating: number | null;
+	reviewCount: number | null;
+	profileUrl: string | null;
 }
 
 export interface CourseSelection {

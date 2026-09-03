@@ -32,7 +32,7 @@ async function dump(clear = true) {
 		let viewLayouts =
 			responseText.match(/data-view-layouts='(.+?)'/) ??
 			responseText.match(/data-view-layouts="(.+?)"/);
-		if (!viewLayouts) console.log(responseText);
+		if (!viewLayouts) return false;
 		viewLayouts = viewLayouts[1];
 
 		const viewData = JSON.parse(base64DecodeUnicode(viewLayouts))[0];
@@ -112,6 +112,7 @@ async function dump(clear = true) {
 		const secureConfig = await getSecureConfig(
 			`${BASE_URL}/_portal/modal-form-template-path/c7a13072-c94f-ed11-bba3-0022486daee2?id=${entityId}&entityformid=${FORM_ID}&languagecode=1033`,
 		);
+		if (!secureConfig) return [];
 		const res = await fetch(
 			BASE_URL +
 				"/_services/entity-grid-data.json/c7a13072-c94f-ed11-bba3-0022486daee2",

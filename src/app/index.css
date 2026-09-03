@@ -101,6 +101,16 @@
 	box-shadow: 0 0 0 2px hsl(var(--course-color) / 0.18);
 }
 
+.teacher-rating-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.15rem;
+	border-radius: 999px;
+	background: hsl(var(--accent));
+	padding: 0.1rem 0.35rem;
+	color: hsl(var(--muted-foreground));
+}
+
 .course-color-0 { --course-color: 217 91% 60%; }
 .course-color-1 { --course-color: 160 84% 39%; }
 .course-color-2 { --course-color: 38 92% 50%; }

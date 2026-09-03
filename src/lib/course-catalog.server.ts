@@ -1,9 +1,11 @@
 import dump from "../../dump-courses.json";
+import teacherRatings from "../../dump-teachers.json";
 import { normalizeCourseCode } from "./course-code";
 import type {
 	CoursePeriod,
 	CourseSection,
 	CourseSuggestion,
+	TeacherRating,
 } from "@/types/schedule";
 
 interface RawClass {
@@ -38,6 +40,55 @@ function parsePeriod(rawPeriod: RawClass): CoursePeriod | null {
 	};
 }
 
+function normalizeTeacherName(name: string): string {
+	const [lastName, firstNames] = name.split(",", 2).map((part) => part.trim());
+	const orderedName = firstNames ? `${firstNames} ${lastName}` : name;
+	return orderedName
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, " ")
+		.trim();
+}
+
+function editDistance(left: string, right: string): number {
+	const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+	for (let row = 1; row <= left.length; row += 1) {
+		const current = [row];
+		for (let column = 1; column <= right.length; column += 1) {
+			current[column] = Math.min(
+				current[column - 1] + 1,
+				previous[column] + 1,
+				previous[column - 1] + (left[row - 1] === right[column - 1] ? 0 : 1),
+			);
+		}
+		for (let column = 0; column <= right.length; column += 1) previous[column] = current[column];
+	}
+	return previous[right.length];
+}
+
+function findTeacherRating(name: string): TeacherRating | null {
+	const normalizedName = normalizeTeacherName(name);
+	const ratingIndex = teacherRatings as Record<string, TeacherRating | null>;
+	const exactMatch = ratingIndex[normalizedName];
+	if (exactMatch) return exactMatch;
+
+	const candidates = Object.entries(ratingIndex)
+		.map(([candidate, rating]) => ({
+			candidate,
+			rating,
+			similarity:
+				1 - editDistance(normalizedName, candidate) /
+					Math.max(normalizedName.length, candidate.length),
+		}))
+		.filter(({ similarity, rating }) => rating && similarity >= 0.92)
+		.sort((left, right) => right.similarity - left.similarity);
+
+	return candidates.length === 1 || candidates[0]?.similarity > (candidates[1]?.similarity ?? 0) + 0.04
+		? candidates[0]?.rating ?? null
+		: null;
+}
+
 function prepareCourse(rawCourse: RawCourse): CourseSection {
 	const uniqueClasses = new Map<string, RawClass>();
 	for (const classMeeting of rawCourse.classes) {
@@ -48,15 +99,17 @@ function prepareCourse(rawCourse: RawCourse): CourseSection {
 	const periods = Array.from(uniqueClasses.values())
 		.map(parsePeriod)
 		.filter((period): period is CoursePeriod => period !== null);
+	const teacher =
+		rawCourse.classes.find((classMeeting) => classMeeting.teacher)?.teacher ??
+		"Teacher TBA";
 
 	return {
 		title: rawCourse.title,
 		section: Number.parseInt(rawCourse.section, 10) || 0,
 		id: normalizeCourseCode(rawCourse.courseId),
-		teacher:
-			rawCourse.classes.find((classMeeting) => classMeeting.teacher)?.teacher ??
-			"Teacher TBA",
+		teacher,
 		periods,
+		teacherRating: findTeacherRating(teacher),
 	};
 }
 

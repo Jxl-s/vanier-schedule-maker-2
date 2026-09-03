@@ -22,8 +22,9 @@ jobs:
 
       - name: Run dump script
         run: |
-          chmod +x ./dump3.js
-          node ./dump3.js ${{ secrets.FORM }}
+          chmod +x ./dump-teachers.js ./dump-courses.js
+          node ./dump-teachers.js
+          node ./dump-courses.js ${{ secrets.FORM }}
 
       - name: Check latest commit author
         id: check_commit

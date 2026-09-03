@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { ExternalLink, Star, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Select,
@@ -28,6 +28,11 @@ export default function CourseCard({
 	const selectedSection =
 		sections.find((section) => section.section === selection.section) ??
 		sections[0];
+	const teacherRating = selectedSection?.teacherRating;
+	const displayRating =
+		teacherRating?.rating != null && (teacherRating.reviewCount ?? 0) > 0
+			? teacherRating
+			: null;
 
 	return (
 		<div className={`course-option course-color-${colorIndex} rounded-md p-3`}>
@@ -40,6 +45,30 @@ export default function CourseCard({
 					<p className="truncate text-xs text-muted-foreground">
 						{selectedSection?.title ?? "Course title unavailable"}
 					</p>
+					{selectedSection?.teacher ? (
+						<div className="mt-1 flex items-center gap-1.5 text-[11px]">
+							{displayRating ? (
+								<span className="teacher-rating-badge" title="RateMyProfessors rating">
+									<Star className="h-3 w-3 fill-current" />
+									<span>{displayRating.rating!.toFixed(1)}</span>
+									{displayRating.reviewCount != null ? (
+										<span className="opacity-75">({displayRating.reviewCount})</span>
+									) : null}
+								</span>
+							) : null}
+							{displayRating ? (
+								<a
+									className="inline-flex min-w-0 items-center gap-0.5 text-primary hover:underline"
+									href={displayRating.profileUrl ?? "https://www.ratemyprofessors.com/"}
+									rel="noreferrer"
+									target="_blank"
+								>
+									<span className="truncate">View professor ratings</span>
+									<ExternalLink className="h-3 w-3 shrink-0" />
+								</a>
+							) : null}
+						</div>
+					) : null}
 				</div>
 				<Button
 					aria-label={"Remove " + selection.course}
