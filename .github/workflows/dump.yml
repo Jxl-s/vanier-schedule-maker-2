@@ -22,7 +22,6 @@ jobs:
 
       - name: Run dump script
         run: |
-          chmod +x ./dump-teachers.js ./dump-courses.js
           node ./dump-teachers.js
           node ./dump-courses.js ${{ secrets.FORM }}
 
@@ -38,17 +37,17 @@ jobs:
 
       - name: Commit changes
         run: |
-          if ! git diff --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add .
-            if [ "${{ steps.check_commit.outputs.amend }}" = "true" ]; then
-              git commit --amend --no-edit
-              git push --force
-            else
-              git commit -m "Automated dump update"
-              git push
-            fi
-          else
+          git add dump-courses.json dump-teachers.json
+          if git diff --cached --quiet; then
             echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "${{ steps.check_commit.outputs.amend }}" = "true" ]; then
+            git commit --amend --no-edit
+            git push --force-with-lease
+          else
+            git commit -m "Automated dump update"
+            git push
           fi
