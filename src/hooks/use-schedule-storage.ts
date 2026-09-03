@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import {
-	loadCatalog,
 	loadSavedSchedules,
 	loadSelections,
-	saveCatalog,
+	purgeLegacyCatalog,
 	saveSavedSchedules,
 	saveSelections,
 } from "@/lib/storage";
@@ -23,15 +22,11 @@ export function useScheduleStorage() {
 	const [isHydrated, setIsHydrated] = useState(false);
 
 	useEffect(() => {
-		setCatalog(loadCatalog());
+		purgeLegacyCatalog();
 		setSelections(loadSelections());
 		setSavedSchedules(loadSavedSchedules());
 		setIsHydrated(true);
 	}, []);
-
-	useEffect(() => {
-		if (isHydrated) saveCatalog(catalog);
-	}, [catalog, isHydrated]);
 
 	useEffect(() => {
 		if (isHydrated) saveSelections(selections);
@@ -48,5 +43,6 @@ export function useScheduleStorage() {
 		setSelections,
 		savedSchedules,
 		setSavedSchedules,
+		isHydrated,
 	};
 }

@@ -67,26 +67,65 @@ function editDistance(left: string, right: string): number {
 	return previous[right.length];
 }
 
+function similarity(left: string, right: string): number {
+	const max = Math.max(left.length, right.length);
+	return max === 0 ? 1 : 1 - editDistance(left, right) / max;
+}
+
+function surnameCandidates(tokens: string[]): string[] {
+	if (tokens.length === 0) return [];
+	const last = tokens[tokens.length - 1];
+	if (tokens.length < 2) return [last];
+	return [last, tokens.slice(-2).join("")];
+}
+
+const SURNAME_THRESHOLD = 0.85;
+const FIRST_NAME_THRESHOLD = 0.7;
+
+function scoreTeacherMatch(
+	realTokens: string[],
+	rmpTokens: string[],
+): number | null {
+	if (realTokens.length === 0 || rmpTokens.length === 0) return null;
+
+	const realSurnames = surnameCandidates(realTokens);
+	const rmpSurnames = surnameCandidates(rmpTokens);
+	let surnameSim = 0;
+	for (const realSurname of realSurnames) {
+		for (const rmpSurname of rmpSurnames) {
+			surnameSim = Math.max(surnameSim, similarity(realSurname, rmpSurname));
+		}
+	}
+	if (surnameSim < SURNAME_THRESHOLD) return null;
+
+	let firstSim = similarity(realTokens[0], rmpTokens[0]);
+	if (firstSim < FIRST_NAME_THRESHOLD) {
+		const middleTokens = realTokens.slice(1, -1);
+		if (!middleTokens.includes(rmpTokens[0])) return null;
+		firstSim = FIRST_NAME_THRESHOLD;
+	}
+
+	return surnameSim * 0.6 + firstSim * 0.4;
+}
+
 function findTeacherRating(name: string): TeacherRating | null {
 	const normalizedName = normalizeTeacherName(name);
 	const ratingIndex = teacherRatings as Record<string, TeacherRating | null>;
 	const exactMatch = ratingIndex[normalizedName];
-	if (exactMatch) return exactMatch;
+	if (exactMatch) return { ...exactMatch, matchConfidence: 1 };
 
-	const candidates = Object.entries(ratingIndex)
-		.map(([candidate, rating]) => ({
-			candidate,
-			rating,
-			similarity:
-				1 - editDistance(normalizedName, candidate) /
-					Math.max(normalizedName.length, candidate.length),
-		}))
-		.filter(({ similarity, rating }) => rating && similarity >= 0.92)
-		.sort((left, right) => right.similarity - left.similarity);
-
-	return candidates.length === 1 || candidates[0]?.similarity > (candidates[1]?.similarity ?? 0) + 0.04
-		? candidates[0]?.rating ?? null
-		: null;
+	const realTokens = normalizedName.split(" ").filter(Boolean);
+	let best: { rating: TeacherRating; score: number } | null = null;
+	for (const [candidate, rating] of Object.entries(ratingIndex)) {
+		if (!rating) continue;
+		const score = scoreTeacherMatch(
+			realTokens,
+			candidate.split(" ").filter(Boolean),
+		);
+		if (score === null) continue;
+		if (!best || score > best.score) best = { rating, score };
+	}
+	return best ? { ...best.rating, matchConfidence: best.score } : null;
 }
 
 function prepareCourse(rawCourse: RawCourse): CourseSection {

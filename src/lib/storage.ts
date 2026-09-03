@@ -1,16 +1,13 @@
 import type {
-	CourseCatalog,
-	CoursePeriod,
-	CourseSection,
 	CourseSelection,
 	SavedSchedule,
 	SavedScheduleCollection,
 } from "@/types/schedule";
 
 export const STORAGE_KEYS = {
-	catalog: "courseData",
 	selections: "currentCourses",
 	saved: "savedSchedules",
+	legacyCatalog: "courseData",
 } as const;
 
 function readJson(key: string): unknown {
@@ -34,34 +31,6 @@ function isObject(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function isFiniteNumber(value: unknown): value is number {
-	return typeof value === "number" && Number.isFinite(value);
-}
-
-function isCoursePeriod(value: unknown): value is CoursePeriod {
-	return (
-		isObject(value) &&
-		typeof value.day === "string" &&
-		typeof value.room === "string" &&
-		isFiniteNumber(value.start_hour) &&
-		isFiniteNumber(value.start_minute) &&
-		isFiniteNumber(value.end_hour) &&
-		isFiniteNumber(value.end_minute)
-	);
-}
-
-function isCourseSection(value: unknown): value is CourseSection {
-	return (
-		isObject(value) &&
-		typeof value.title === "string" &&
-		Number.isInteger(value.section) &&
-		typeof value.teacher === "string" &&
-		typeof value.id === "string" &&
-		Array.isArray(value.periods) &&
-		value.periods.every(isCoursePeriod)
-	);
-}
-
 function isCourseSelection(value: unknown): value is CourseSelection {
 	return (
 		isObject(value) &&
@@ -71,45 +40,15 @@ function isCourseSelection(value: unknown): value is CourseSelection {
 	);
 }
 
-function parseCatalog(value: unknown): CourseCatalog {
-	if (!isObject(value)) return {};
-
-	const catalog: CourseCatalog = {};
-	for (const [courseCode, sections] of Object.entries(value)) {
-		if (
-			courseCode.length > 0 &&
-			Array.isArray(sections) &&
-			sections.every(isCourseSection)
-		) {
-			catalog[courseCode] = sections;
-		}
-	}
-
-	return catalog;
-}
-
-function parseSelections(value: unknown): CourseSelection[] {
-	return Array.isArray(value) ? value.filter(isCourseSelection) : [];
-}
-
 function parseSavedSchedule(value: unknown): SavedSchedule | null {
 	if (!isObject(value) || !Array.isArray(value.courses)) return null;
-	if (!value.courses.every(isCourseSelection) || !isObject(value.data)) {
-		return null;
-	}
-
-	return {
-		courses: value.courses,
-		data: parseCatalog(value.data),
-	};
-}
-
-export function loadCatalog(): CourseCatalog {
-	return parseCatalog(readJson(STORAGE_KEYS.catalog));
+	if (!value.courses.every(isCourseSelection)) return null;
+	return { courses: value.courses };
 }
 
 export function loadSelections(): CourseSelection[] {
-	return parseSelections(readJson(STORAGE_KEYS.selections));
+	const value = readJson(STORAGE_KEYS.selections);
+	return Array.isArray(value) ? value.filter(isCourseSelection) : [];
 }
 
 export function loadSavedSchedules(): SavedScheduleCollection {
@@ -125,14 +64,18 @@ export function loadSavedSchedules(): SavedScheduleCollection {
 	return schedules;
 }
 
-export function saveCatalog(catalog: CourseCatalog): void {
-	writeJson(STORAGE_KEYS.catalog, catalog);
-}
-
 export function saveSelections(selections: CourseSelection[]): void {
 	writeJson(STORAGE_KEYS.selections, selections);
 }
 
 export function saveSavedSchedules(schedules: SavedScheduleCollection): void {
 	writeJson(STORAGE_KEYS.saved, schedules);
+}
+
+export function purgeLegacyCatalog(): void {
+	try {
+		window.localStorage.removeItem(STORAGE_KEYS.legacyCatalog);
+	} catch {
+		// ignore
+	}
 }

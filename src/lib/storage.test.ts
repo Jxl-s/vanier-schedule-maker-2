@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
-	loadCatalog,
 	loadSavedSchedules,
 	loadSelections,
 	STORAGE_KEYS,
@@ -55,35 +54,14 @@ describe("local storage parsing", () => {
 		expect(loadSelections()).toEqual([{ course: "420-101-VA", section: 1 }]);
 	});
 
-	it("filters invalid catalog sections instead of trusting JSON", () => {
-		storage.setItem(
-			STORAGE_KEYS.catalog,
-			JSON.stringify({
-				"420-101-VA": [
-					{
-						title: "Programming 1",
-						section: 1,
-						teacher: "Teacher",
-						id: "420-101-VA",
-						periods: [],
-					},
-				],
-				bad: [{ title: "missing fields" }],
-			}),
-		);
-
-		expect(Object.keys(loadCatalog())).toEqual(["420-101-VA"]);
-	});
-
 	it("filters malformed saved schedules", () => {
 		storage.setItem(
 			STORAGE_KEYS.saved,
 			JSON.stringify({
 				Good: {
 					courses: [{ course: "420-101-VA", section: 1 }],
-					data: {},
 				},
-				Broken: { courses: "not-an-array", data: {} },
+				Broken: { courses: "not-an-array" },
 			}),
 		);
 

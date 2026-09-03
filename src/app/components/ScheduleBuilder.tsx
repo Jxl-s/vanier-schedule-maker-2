@@ -41,6 +41,7 @@ export default function ScheduleBuilder({
 		setSelections,
 		savedSchedules,
 		setSavedSchedules,
+		isHydrated,
 	} = useScheduleStorage();
 	const [courseCode, setCourseCode] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -66,6 +67,46 @@ export default function ScheduleBuilder({
 		);
 	}, [generation.schedules.length]);
 
+	useEffect(() => {
+		if (!isHydrated) return;
+		const missing = selections
+			.map((selection) => selection.course)
+			.filter((course) => !catalog[course]);
+		if (missing.length === 0) return;
+
+		let cancelled = false;
+		Promise.all(
+			missing.map(async (course) => {
+				try {
+					const response = await fetch(
+						"/api/courses/" + encodeURIComponent(course),
+						{ cache: "no-store" },
+					);
+					const result = (await response.json()) as CourseResponse;
+					if (!response.ok || result.data.length === 0) return null;
+					return [course, result.data] as const;
+				} catch {
+					return null;
+				}
+			}),
+		).then((results) => {
+			if (cancelled) return;
+			const fetched = results.filter(
+				(entry): entry is readonly [string, CourseResponse["data"]] => entry !== null,
+			);
+			if (fetched.length === 0) return;
+			setCatalog((current) => {
+				const next = { ...current };
+				for (const [code, sections] of fetched) next[code] = sections;
+				return next;
+			});
+		});
+
+		return () => {
+			cancelled = true;
+		};
+	}, [isHydrated, selections, catalog, setCatalog]);
+
 	async function handleAddCourse(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const normalizedCode = normalizeCourseCode(courseCode);
@@ -88,6 +129,7 @@ export default function ScheduleBuilder({
 			if (!sections) {
 				const response = await fetch(
 					"/api/courses/" + encodeURIComponent(normalizedCode),
+					{ cache: "no-store" },
 				);
 				const result = (await response.json()) as CourseResponse;
 				if (!response.ok || result.data.length === 0) {
@@ -127,6 +169,11 @@ export default function ScheduleBuilder({
 		setSelections((current) =>
 			current.filter((selection) => selection.course !== course),
 		);
+		setCatalog((current) => {
+			const next = { ...current };
+			delete next[course];
+			return next;
+		});
 		setScheduleIndex(0);
 		setStatus(null);
 	}
@@ -135,15 +182,9 @@ export default function ScheduleBuilder({
 		if (selections.length === 0) return "Add at least one course first.";
 		if (savedSchedules[name]) return "That name is already used.";
 
-		const relevantCatalog = Object.fromEntries(
-			selections.map((selection) => [
-				selection.course,
-				catalog[selection.course] ?? [],
-			]),
-		);
 		setSavedSchedules((current) => ({
 			...current,
-			[name]: { courses: selections, data: relevantCatalog },
+			[name]: { courses: selections },
 		}));
 		return null;
 	}
@@ -151,7 +192,6 @@ export default function ScheduleBuilder({
 	function loadSchedule(name: string) {
 		const saved = savedSchedules[name];
 		if (!saved) return;
-		setCatalog((current) => ({ ...current, ...saved.data }));
 		setSelections(saved.courses);
 		setScheduleIndex(0);
 		setStatus({ tone: "success", message: name + " loaded." });
@@ -254,6 +294,11 @@ export default function ScheduleBuilder({
 								) : (
 									selections.map((selection) => (
 							<CourseCard
+								activeSection={
+									currentSchedule.find(
+										(section) => section.id === selection.course,
+									) ?? null
+								}
 								colorIndex={courseColors[selection.course] ?? 0}
 											key={selection.course}
 											onRemove={() => removeCourse(selection.course)}

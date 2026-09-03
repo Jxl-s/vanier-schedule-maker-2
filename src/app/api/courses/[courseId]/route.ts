@@ -7,12 +7,11 @@ interface RouteContext {
 }
 
 const responseHeaders = {
-	"Cache-Control":
-		"public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+	"Cache-Control": "no-store",
 	"X-Robots-Tag": "noindex, nofollow",
 };
 
-export const revalidate = 86_400;
+export const dynamic = "force-dynamic";
 
 export async function GET(_request: Request, { params }: RouteContext) {
 	const courseId = normalizeCourseCode(params.courseId);

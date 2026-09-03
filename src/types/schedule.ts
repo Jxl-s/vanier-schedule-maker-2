@@ -21,6 +21,7 @@ export interface TeacherRating {
 	rating: number | null;
 	reviewCount: number | null;
 	profileUrl: string | null;
+	matchConfidence?: number;
 }
 
 export interface CourseSelection {
@@ -32,7 +33,6 @@ export type CourseCatalog = Record<string, CourseSection[]>;
 
 export interface SavedSchedule {
 	courses: CourseSelection[];
-	data: CourseCatalog;
 }
 
 export type SavedScheduleCollection = Record<string, SavedSchedule>;

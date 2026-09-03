@@ -14,6 +14,7 @@ interface CourseCardProps {
 	colorIndex: number;
 	selection: CourseSelection;
 	sections: CourseSection[];
+	activeSection?: CourseSection | null;
 	onRemove: () => void;
 	onSectionChange: (section: number) => void;
 }
@@ -22,10 +23,12 @@ export default function CourseCard({
 	colorIndex,
 	selection,
 	sections,
+	activeSection,
 	onRemove,
 	onSectionChange,
 }: CourseCardProps) {
 	const selectedSection =
+		activeSection ??
 		sections.find((section) => section.section === selection.section) ??
 		sections[0];
 	const teacherRating = selectedSection?.teacherRating;
