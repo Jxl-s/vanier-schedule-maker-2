@@ -288,6 +288,9 @@ export default function ScheduleBuilder({
 					</div>
 					<div className="hidden lg:block">
 						<UsefulLinks />
+						<p className="mt-2 px-1 text-xs text-muted-foreground">
+							Always verify your final schedule with Vanier&apos;s official system.
+						</p>
 					</div>
 				</aside>
 
@@ -319,12 +322,11 @@ export default function ScheduleBuilder({
 
 				<div className="lg:hidden">
 					<UsefulLinks />
+					<p className="mt-2 px-1 text-xs text-muted-foreground">
+						Always verify your final schedule with Vanier&apos;s official system.
+					</p>
 				</div>
 			</div>
-
-			<footer className="mx-auto max-w-[1440px] px-4 pb-4 text-xs text-muted-foreground">
-				Always verify your final schedule with Vanier&apos;s official system.
-			</footer>
 		</div>
 	);
 }
