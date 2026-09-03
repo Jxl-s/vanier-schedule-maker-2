@@ -19,6 +19,7 @@ import CourseAutocomplete from "./CourseAutocomplete";
 import SavedSchedules from "./SavedSchedules";
 import ScheduleWorkspace from "./ScheduleWorkspace";
 import ThemeToggle from "./ThemeToggle";
+import UsefulLinks from "./UsefulLinks";
 
 type Status = {
 	tone: "error" | "success";
@@ -275,6 +276,10 @@ export default function ScheduleBuilder({
 					total={generation.schedules.length}
 					truncated={generation.truncated}
 				/>
+
+				<div className="lg:col-start-1 lg:row-start-2">
+					<UsefulLinks />
+				</div>
 			</div>
 
 			<footer className="mx-auto max-w-[1440px] px-4 pb-4 text-xs text-muted-foreground">
