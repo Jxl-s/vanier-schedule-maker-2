@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { FolderOpen, Save, X } from "lucide-react";
+import { FolderOpen, Pencil, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -13,6 +13,7 @@ interface SavedSchedulesProps {
 	names: string[];
 	onDelete: (name: string) => void;
 	onLoad: (name: string) => void;
+	onRename: (name: string, nextName: string) => string | null;
 	onSave: (name: string) => string | null;
 }
 
@@ -20,6 +21,7 @@ export default function SavedSchedules({
 	names,
 	onDelete,
 	onLoad,
+	onRename,
 	onSave,
 }: SavedSchedulesProps) {
 	const [name, setName] = useState("");
@@ -53,6 +55,14 @@ export default function SavedSchedules({
 		if (window.confirm(`Are you sure you want to delete "${savedName}"?`)) {
 			onDelete(savedName);
 		}
+	}
+
+	function handleRename(savedName: string) {
+		const nextName = window.prompt("Rename saved schedule:", savedName)?.trim();
+		if (!nextName || nextName === savedName) return;
+
+		const error = onRename(savedName, nextName);
+		setMessage(error ?? "Renamed.");
 	}
 
 	return (
@@ -89,21 +99,34 @@ export default function SavedSchedules({
 						{names.map((savedName) => (
 							<div className="flex items-center gap-1" key={savedName}>
 								<Button
+									aria-label={"Load saved schedule " + savedName}
 									className="h-8 min-w-0 flex-1 justify-start px-2 text-xs"
 									onClick={() => handleLoad(savedName)}
+									title="Load schedule"
 									variant="outline"
 								>
 									<FolderOpen className="mr-1.5 h-3.5 w-3.5 shrink-0" />
 									<span className="truncate">{savedName}</span>
 								</Button>
 								<Button
+									aria-label={"Rename saved schedule " + savedName}
+									className="h-8 w-8 text-muted-foreground hover:text-foreground"
+									onClick={() => handleRename(savedName)}
+									size="icon"
+									title="Rename schedule"
+									variant="ghost"
+								>
+									<Pencil className="h-3.5 w-3.5" />
+								</Button>
+								<Button
 									aria-label={"Delete saved schedule " + savedName}
 									className="h-8 w-8 text-muted-foreground hover:text-destructive"
 									onClick={() => handleDelete(savedName)}
 									size="icon"
+									title="Delete schedule"
 									variant="ghost"
 								>
-									<X className="h-3.5 w-3.5" />
+									<Trash2 className="h-3.5 w-3.5" />
 								</Button>
 							</div>
 						))}

@@ -87,9 +87,28 @@
 .course-option {
 	background: hsl(var(--secondary));
 	box-shadow:
-		inset 3px 0 0 hsl(var(--primary) / 0.75),
+		inset 3px 0 0 hsl(var(--course-color, var(--primary)) / 0.9),
 		0 1px 2px rgb(0 0 0 / 0.08);
 }
+
+.course-color-indicator {
+	display: inline-block;
+	width: 0.55rem;
+	height: 0.55rem;
+	flex: 0 0 auto;
+	border-radius: 999px;
+	background: hsl(var(--course-color));
+	box-shadow: 0 0 0 2px hsl(var(--course-color) / 0.18);
+}
+
+.course-color-0 { --course-color: 217 91% 60%; }
+.course-color-1 { --course-color: 160 84% 39%; }
+.course-color-2 { --course-color: 38 92% 50%; }
+.course-color-3 { --course-color: 347 77% 50%; }
+.course-color-4 { --course-color: 262 83% 58%; }
+.course-color-5 { --course-color: 188 86% 42%; }
+.course-color-6 { --course-color: 20 90% 48%; }
+.course-color-7 { --course-color: 326 78% 57%; }
 
 .schedule-scroll {
 	container-type: inline-size;
@@ -152,7 +171,8 @@
 }
 
 .schedule-table .course-cell {
-	background: hsl(var(--schedule-course));
+	background: hsl(var(--course-color, var(--schedule-course)) / 0.14);
+	box-shadow: inset 3px 0 0 hsl(var(--course-color, var(--primary)));
 	font-size: 0.64rem;
 	line-height: 1.25;
 	overflow-wrap: anywhere;

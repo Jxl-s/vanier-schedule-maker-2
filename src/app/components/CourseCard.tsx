@@ -11,6 +11,7 @@ import { formatSection } from "@/lib/course-code";
 import type { CourseSection, CourseSelection } from "@/types/schedule";
 
 interface CourseCardProps {
+	colorIndex: number;
 	selection: CourseSelection;
 	sections: CourseSection[];
 	onRemove: () => void;
@@ -18,6 +19,7 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({
+	colorIndex,
 	selection,
 	sections,
 	onRemove,
@@ -28,10 +30,13 @@ export default function CourseCard({
 		sections[0];
 
 	return (
-		<div className="course-option rounded-md p-3">
+		<div className={`course-option course-color-${colorIndex} rounded-md p-3`}>
 			<div className="mb-2 flex items-start justify-between gap-2">
 				<div className="min-w-0">
-					<p className="font-mono text-xs font-semibold">{selection.course}</p>
+					<p className="flex items-center gap-1.5 font-mono text-xs font-semibold">
+						<span aria-hidden="true" className={`course-color-indicator course-color-${colorIndex}`} />
+						{selection.course}
+					</p>
 					<p className="truncate text-xs text-muted-foreground">
 						{selectedSection?.title ?? "Course title unavailable"}
 					</p>

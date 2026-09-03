@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { useScheduleStorage } from "@/hooks/use-schedule-storage";
 import { normalizeCourseCode } from "@/lib/course-code";
+import { courseColorIndex } from "@/lib/course-colors";
 import { generateValidSchedules } from "@/lib/schedule";
 import { siteConfig } from "@/lib/site";
 import type { CourseResponse, CourseSuggestion } from "@/types/schedule";
@@ -51,6 +52,13 @@ export default function ScheduleBuilder({
 		[selections, catalog],
 	);
 	const currentSchedule = generation.schedules[scheduleIndex] ?? [];
+	const courseColors = useMemo(
+		() =>
+			Object.fromEntries(
+				selections.map((selection, index) => [selection.course, courseColorIndex(index)]),
+			),
+		[selections],
+	);
 
 	useEffect(() => {
 		setScheduleIndex((current) =>
@@ -157,6 +165,20 @@ export default function ScheduleBuilder({
 		});
 	}
 
+	function renameSchedule(name: string, nextName: string): string | null {
+		if (savedSchedules[nextName]) return "That name is already used.";
+		const saved = savedSchedules[name];
+		if (!saved) return "Saved schedule not found.";
+
+		setSavedSchedules((current) => {
+			const next = { ...current };
+			delete next[name];
+			next[nextName] = saved;
+			return next;
+		});
+		return null;
+	}
+
 	return (
 		<div className="min-h-screen bg-background text-foreground">
 			<header className="app-header bg-card">
@@ -231,7 +253,8 @@ export default function ScheduleBuilder({
 									</p>
 								) : (
 									selections.map((selection) => (
-										<CourseCard
+							<CourseCard
+								colorIndex={courseColors[selection.course] ?? 0}
 											key={selection.course}
 											onRemove={() => removeCourse(selection.course)}
 											onSectionChange={(section) =>
@@ -258,6 +281,7 @@ export default function ScheduleBuilder({
 						names={Object.keys(savedSchedules)}
 						onDelete={deleteSchedule}
 						onLoad={loadSchedule}
+						onRename={renameSchedule}
 						onSave={saveSchedule}
 					/>
 					<div className="hidden lg:block">
@@ -266,6 +290,7 @@ export default function ScheduleBuilder({
 				</aside>
 
 				<ScheduleWorkspace
+					courseColors={courseColors}
 					currentIndex={scheduleIndex}
 					onNext={() =>
 						setScheduleIndex((current) =>

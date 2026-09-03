@@ -11,6 +11,7 @@ import type { CourseSection } from "@/types/schedule";
 import Schedule from "./Schedule";
 
 interface ScheduleWorkspaceProps {
+	courseColors: Record<string, number>;
 	currentIndex: number;
 	onNext: () => void;
 	onPrevious: () => void;
@@ -20,6 +21,7 @@ interface ScheduleWorkspaceProps {
 }
 
 export default function ScheduleWorkspace({
+	courseColors,
 	currentIndex,
 	onNext,
 	onPrevious,
@@ -70,13 +72,14 @@ export default function ScheduleWorkspace({
 
 			<CardContent className="p-0">
 				<div className="schedule-surface p-2">
-					<Schedule data={schedule} />
+					<Schedule courseColors={courseColors} data={schedule} />
 				</div>
 
 				{hasSchedules ? (
 					<div className="space-y-0.5 bg-muted/30 p-3 font-mono text-xs text-muted-foreground">
 						{schedule.map((course) => (
-							<p key={course.id}>
+							<p className="flex items-center gap-1.5" key={course.id}>
+								<span aria-hidden="true" className={`course-color-indicator course-color-${courseColors[course.id] ?? 0}`} />
 								{course.id} - {formatSection(course.section)} - {course.title}
 							</p>
 						))}

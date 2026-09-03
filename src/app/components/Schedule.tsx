@@ -11,6 +11,7 @@ import {
 import type { CoursePeriod, CourseSection } from "@/types/schedule";
 
 interface ScheduleProps {
+	courseColors: Record<string, number>;
 	data: CourseSection[];
 }
 
@@ -65,7 +66,7 @@ function calculateScheduleCells(data: CourseSection[]): ScheduleCell[][] {
 	return table;
 }
 
-export default function Schedule({ data }: ScheduleProps) {
+export default function Schedule({ courseColors, data }: ScheduleProps) {
 	const scheduleTable = calculateScheduleCells(data);
 
 	return (
@@ -112,7 +113,7 @@ export default function Schedule({ data }: ScheduleProps) {
 									const { course, period, rowSpan } = cell;
 									return (
 										<td
-											className="course-cell"
+											className={`course-cell course-color-${courseColors[course.id] ?? 0}`}
 											key={[course.id, course.section, period.day, startTime].join("-")}
 											rowSpan={rowSpan}
 										>
