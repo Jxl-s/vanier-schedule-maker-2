@@ -1,8 +1,7 @@
-import Schedules from "./pages/schedule";
+import ScheduleBuilder from "./components/ScheduleBuilder";
+import { getCourseCatalog } from "@/lib/course-catalog.server";
 import "./index.css";
 
-function App() {
-    return <Schedules />;
+export default function HomePage() {
+	return <ScheduleBuilder courseSuggestions={getCourseCatalog()} />;
 }
-
-export default App;

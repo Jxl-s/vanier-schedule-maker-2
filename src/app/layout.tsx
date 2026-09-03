@@ -49,7 +49,6 @@ export const metadata = {
 	viewport: {
 		width: "device-width",
 		initialScale: 1,
-		maximumScale: 1,
 	},
 };
 
@@ -59,13 +58,28 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html:
+							'try{const t=localStorage.getItem("theme");const d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);document.documentElement.style.colorScheme=d?"dark":"light"}catch(e){}',
+					}}
+				/>
 				<link
 					rel="canonical"
 					href="https://vanier-schedule-maker-2.vercel.app"
 				/>
-				<meta name="theme-color" content="#18181b" />
+				<meta
+					name="theme-color"
+					content="#f8fafc"
+					media="(prefers-color-scheme: light)"
+				/>
+				<meta
+					name="theme-color"
+					content="#18181b"
+					media="(prefers-color-scheme: dark)"
+				/>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 				<link rel="icon" href="/favicon.ico" />
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -73,11 +87,6 @@ export default function RootLayout({
 				<meta name="format-detection" content="telephone=no" />
 			</head>
 			<body>
-				<header>
-					<nav aria-label="Main navigation" className="sr-only">
-						<h1>Vanier Schedule Builder</h1>
-					</nav>
-				</header>
 				<main id="main-content">{children}</main>
 				<StructuredData />
 				<Analytics />

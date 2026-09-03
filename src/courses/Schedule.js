@@ -26,10 +26,11 @@ export class Schedule {
 
 		this.headerToken = "";
 		this.cookieToken = "";
+		this.initPromise = null;
 
 		this.cache = new LRUCache({
 			max: 500,
-			ttl: 1000 * 60 * 5, // 15 minutes
+			ttl: 1000 * 60 * 5,
 		});
 
 		this.updatedAt = undefined;
@@ -38,23 +39,35 @@ export class Schedule {
 	}
 
 	async init() {
-		// 1. Fetch the secure config and the form ID
-		const { secureConfig, entityFormId } = await this._getSecureConfig(
-			Schedule.BASE_URL,
-		);
+		if (this.initPromise) return this.initPromise;
+
+		this.initPromise = this._initialize();
+		return this.initPromise;
+	}
+
+	async _initialize() {
+		const [{ secureConfig, entityFormId }, { header, cookie }] =
+			await Promise.all([
+				this._getSecureConfig(Schedule.BASE_URL),
+				this._getVerifTokens(),
+			]);
 
 		this.baseSecureConfig = secureConfig;
 		this.formId = entityFormId;
-
-		// 2. Fetch the session tokens
-		const { header, cookie } = await this._getVerifTokens();
 		this.headerToken = header;
 		this.cookieToken = cookie;
-
 		this.updatedAt = new Date();
 	}
 
 	async search({ page = 1, pageSize = 40, search = "" }) {
+		await this.init();
+
+		const cacheKey = ["search", page, pageSize, search.trim().toLowerCase()].join(
+			"_",
+		);
+		const cachedResults = this.cache.get(cacheKey);
+		if (cachedResults) return cachedResults;
+
 		const res = await fetch(
 			Schedule.BASE_URL +
 				"/_services/entity-grid-data.json/c7a13072-c94f-ed11-bba3-0022486daee2",
@@ -83,9 +96,7 @@ export class Schedule {
 		);
 
 		const results = [];
-		const promises = [];
-
-		if (res.status !== 200) {
+		if (!res.ok) {
 			return results;
 		}
 
@@ -110,10 +121,14 @@ export class Schedule {
 			});
 
 			results.push(courseObj);
-			promises.push(courseObj.init());
 		}
 
-		await Promise.all(promises);
+		// Avoid overwhelming the upstream portal with one request per section.
+		for (let index = 0; index < results.length; index += 8) {
+			await Promise.all(results.slice(index, index + 8).map((course) => course.init()));
+		}
+
+		this.cache.set(cacheKey, results);
 		return results;
 	}
 
@@ -131,10 +146,10 @@ export class Schedule {
 			let match =
 				resText.match(/data-view-layouts='(.+?)'/) ??
 				resText.match(/data-view-layouts="(.+?)"/);
-			match = match[1];
+			if (!match) return result;
 
 			// Extract the base config, and the form ID
-			const dataViewLayouts = JSON.parse(base64DecodeUnicode(match))[0];
+			const dataViewLayouts = JSON.parse(base64DecodeUnicode(match[1]))[0];
 			const secureConfig = dataViewLayouts.Base64SecureConfiguration;
 
 			const entityFormId =
@@ -145,8 +160,7 @@ export class Schedule {
 				secureConfig,
 				entityFormId,
 			};
-		} catch (e) {
-			console.log(e);
+		} catch {
 			return result;
 		}
 	}
@@ -154,41 +168,23 @@ export class Schedule {
 	async _getVerifTokens() {
 		const result = { header: "", cookie: "" };
 		const res = await fetch(Schedule.BASE_URL + "/_layout/tokenhtml");
-		if (res.status !== 200) {
+		if (!res.ok) {
 			return result;
 		}
 
 		const resText = await res.text();
 
 		// Grab the tokens
-		const header = resText.match(
+		const headerMatch = resText.match(
 			/__RequestVerificationToken" type="hidden" value="(.+?)"/,
-		)[1];
-		const cookie = res.headers
+		);
+		const cookieMatch = res.headers
 			.get("set-cookie")
-			.match(/__RequestVerificationToken=(.+?);/)[1];
+			?.match(/__RequestVerificationToken=(.+?);/);
 
 		return {
-			header,
-			cookie,
+			header: headerMatch?.[1] ?? "",
+			cookie: cookieMatch?.[1] ?? "",
 		};
 	}
-}
-
-if (import.meta.url === new URL(import.meta.url, import.meta.url).href) {
-	// Code to run if the file is executed directly
-	const schedule = new Schedule();
-	await schedule.init();
-
-	for (let i = 0; i < 100; i++) {
-		const results = await schedule.search({
-			page: 1,
-			pageSize: 50,
-			search: "420-101-VA",
-		});
-
-		console.log("DONE ONCE", i);
-	}
-
-	console.log(JSON.stringify(results));
 }

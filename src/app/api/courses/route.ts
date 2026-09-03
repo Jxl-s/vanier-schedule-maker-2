@@ -1,11 +1,15 @@
-import { NextRequest } from 'next/server'
- 
-export async function GET(request: NextRequest) {
-  // This API route should not be indexed
-  return new Response('API routes are not meant to be accessed directly', {
-    status: 404,
-    headers: {
-      'X-Robots-Tag': 'noindex, nofollow',
-    },
-  })
+import { NextResponse } from "next/server";
+
+export async function GET() {
+	return NextResponse.json(
+		{
+			code: 404,
+			message:
+				"Add a course code to the URL, for example /api/courses/420-101-VA.",
+		},
+		{
+			status: 404,
+			headers: { "X-Robots-Tag": "noindex, nofollow" },
+		},
+	);
 }

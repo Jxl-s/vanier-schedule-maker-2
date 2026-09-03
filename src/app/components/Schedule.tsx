@@ -1,199 +1,136 @@
-interface Props {
-    data: {
-        title: string;
-        section: number;
-        teacher: string;
-        id: string;
-        periods: {
-            day: string;
-            room: string;
+import { formatSection } from "@/lib/course-code";
+import {
+	DAYS,
+	formatTime,
+	SCHEDULE_END_MINUTES,
+	SCHEDULE_START_MINUTES,
+	SLOT_MINUTES,
+	dayToIndex,
+	timeToMinutes,
+} from "@/lib/schedule";
+import type { CoursePeriod, CourseSection } from "@/types/schedule";
 
-            start_hour: number;
-            start_minute: number;
-
-            end_hour: number;
-            end_minute: number;
-        }[];
-    }[];
+interface ScheduleProps {
+	data: CourseSection[];
 }
 
-export const dayToInt = (day: string) => {
-    switch (day) {
-        // Also handle abbreviations
-        case "Mon":
-        case "Monday":
-            return 0;
-        case "Tue":
-        case "Tuesday":
-            return 1;
-        case "Wed":
-        case "Wednesday":
-            return 2;
-        case "Thu":
-        case "Thursday":
-            return 3;
-        case "Fri":
-        case "Friday":
-            return 4;
+interface CourseCell {
+	course: CourseSection;
+	period: CoursePeriod;
+	rowSpan: number;
+}
 
-        default:
-            return -1;
-    }
-};
+type ScheduleCell = CourseCell | "occupied" | null;
 
-const calculateScheduleCells = (data: Props["data"]) => {
-    // first, flatten the courses
-    const flatenedCourses = data.flatMap((course) => {
-        return course.periods.map((period) => ({
-            ...course,
-            periods: undefined,
-            period,
-        }));
-    });
+function calculateScheduleCells(data: CourseSection[]): ScheduleCell[][] {
+	const rowCount =
+		(SCHEDULE_END_MINUTES - SCHEDULE_START_MINUTES) / SLOT_MINUTES;
+	const table = Array.from({ length: rowCount }, () =>
+		Array<ScheduleCell>(DAYS.length).fill(null),
+	);
 
-    // initialize the cells for each time slot
-    const scheduleTable: (
-        | {
-              periods: undefined;
-              period: {
-                  day: string;
-                  room: string;
-                  start_hour: number;
-                  start_minute: number;
-                  end_hour: number;
-                  end_minute: number;
-              };
-              id: string;
-              title: string;
-              section: number;
-              teacher: string;
-          }
-        | 0
-        | 1
-    )[][] = [];
+	for (const course of data) {
+		for (const period of course.periods) {
+			const dayIndex = dayToIndex(period.day);
+			const start = timeToMinutes(period.start_hour, period.start_minute);
+			const end = timeToMinutes(period.end_hour, period.end_minute);
+			const rowIndex = Math.round(
+				(start - SCHEDULE_START_MINUTES) / SLOT_MINUTES,
+			);
+			const rowSpan = Math.max(1, Math.round((end - start) / SLOT_MINUTES));
 
-    for (let i = 0; i < 20; i++) {
-        scheduleTable.push([]);
-    }
+			if (
+				dayIndex < 0 ||
+				rowIndex < 0 ||
+				rowIndex >= table.length ||
+				end <= start
+			) {
+				continue;
+			}
 
-    for (const period of flatenedCourses) {
-        const classStart = period.period.start_hour + period.period.start_minute / 60;
-        const classEnd = period.period.end_hour + period.period.end_minute / 60;
+			table[rowIndex][dayIndex] = {
+				course,
+				period,
+				rowSpan: Math.min(rowSpan, table.length - rowIndex),
+			};
 
-        const rowIndex = classStart * 2 - 16;
-        const targetRow = scheduleTable[rowIndex];
+			for (let offset = 1; offset < rowSpan; offset += 1) {
+				if (table[rowIndex + offset]) {
+					table[rowIndex + offset][dayIndex] = "occupied";
+				}
+			}
+		}
+	}
 
-        targetRow[dayToInt(period.period.day)] = period;
+	return table;
+}
 
-        // find the following cells that will be taken
-        const classDuration = classEnd - classStart;
-        const cellsToTake = classDuration * 2;
+export default function Schedule({ data }: ScheduleProps) {
+	const scheduleTable = calculateScheduleCells(data);
 
-        // fill the cells which this class takes
-        for (let i = 1; i < cellsToTake; i++) {
-            scheduleTable[rowIndex + i][dayToInt(period.period.day)] = 1;
-        }
-    }
+	return (
+		<div
+			aria-label="Weekly schedule"
+			className="schedule-scroll overflow-x-auto"
+			role="region"
+			tabIndex={0}
+		>
+			<table className="schedule-table w-full min-w-[680px] table-fixed border-collapse">
+				<caption className="sr-only">
+					Weekly course schedule from 8:00 to 18:00
+				</caption>
+				<thead>
+					<tr>
+						<th className="time-column" scope="col" />
+						{DAYS.map((day) => (
+							<th key={day} scope="col">
+								{day}
+							</th>
+						))}
+					</tr>
+				</thead>
+				<tbody>
+					{scheduleTable.map((row, rowIndex) => {
+						const startTime =
+							SCHEDULE_START_MINUTES + rowIndex * SLOT_MINUTES;
+						const endTime = startTime + SLOT_MINUTES;
 
-    // fill the rest of the cells with 0, meaning its empty
-    for (let i = 0; i < 20; i++) {
-        const row = scheduleTable[i];
+						return (
+							<tr key={startTime}>
+								<th className="time-column" scope="row">
+									{formatTime(startTime)}
+									<br />
+									{formatTime(endTime)}
+								</th>
+								{row.map((cell, dayIndex) => {
+									if (cell === "occupied") return null;
 
-        for (let j = 0; j < 5; j++) {
-            if (row[j] === undefined) {
-                row[j] = 0;
-            }
-        }
-    }
+									if (cell === null) {
+										return <td key={DAYS[dayIndex]} />;
+									}
 
-    return scheduleTable;
-};
-
-export default function Schedule({ data }: Props) {
-    const numToTimeString = (num: number) => {
-        const hours = Math.floor(num);
-        const minutes = (num - hours) * 60;
-
-        return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
-    };
-
-    const scheduleTable = calculateScheduleCells(data);
-    return (
-        <table border={0} cellPadding={0} className="w-full bg-zinc-800">
-            <tbody>
-                {/* The table's header */}
-                <tr className="border border-zinc-600">
-                    <td className="text-center"></td>
-                    {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((day, i) => (
-                        <td
-                            className="text-center col-span-2 border-l border-zinc-600 text-sm"
-                            width={"20%"}
-                            key={i}
-                        >
-                            {day}
-                        </td>
-                    ))}
-                </tr>
-                {/* The body of the table */}
-                {new Array(20).fill(0).map((_, i) => {
-                    const startTime = 8 + i * 0.5;
-                    const endTime = startTime + 0.5;
-
-                    const startString = numToTimeString(startTime);
-                    const endString = numToTimeString(endTime);
-
-                    return (
-                        <tr key={i} className="border-l border-zinc-600">
-                            <td
-                                align="center"
-                                className="text-xs border-b border-r border-zinc-600 p-1"
-                            >
-                                {startString}
-                                <br />
-                                {endString}
-                            </td>
-                            {scheduleTable[i].map((row, j) => {
-                                if (row == 1) {
-                                    // do nothing
-                                } else if (row == 0) {
-                                    // empty cell
-                                    return (
-                                        <td
-                                            key={j}
-                                            align="center"
-                                            className="border-b border-r border-zinc-600"
-                                        />
-                                    );
-                                } else {
-                                    // add the course
-                                    const start =
-                                        row.period.start_hour + row.period.start_minute / 60;
-
-                                    const end = row.period.end_hour + row.period.end_minute / 60;
-                                    return (
-                                        <td
-                                            key={j}
-                                            rowSpan={(end - start) * 2}
-                                            align="center"
-                                            className="border-b border-r border-zinc-600 text-xs"
-                                        >
-                                            <span>
-                                                <b>{row.title.slice(0, 20)}</b>
-                                                <br />
-                                                {row.id} - {row.section.toString().padStart(5, "0")}
-                                                <br />
-                                                {row.teacher}
-                                                <br />
-                                                {row.period.room ?? "..."}
-                                            </span>
-                                        </td>
-                                    );
-                                }
-                            })}
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
-    );
+									const { course, period, rowSpan } = cell;
+									return (
+										<td
+											className="course-cell"
+											key={[course.id, course.section, period.day, startTime].join("-")}
+											rowSpan={rowSpan}
+										>
+											<strong>{course.title.slice(0, 20)}</strong>
+											<br />
+											{course.id} - {formatSection(course.section)}
+											<br />
+											{course.teacher}
+											<br />
+											{period.room || "..."}
+										</td>
+									);
+								})}
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+		</div>
+	);
 }

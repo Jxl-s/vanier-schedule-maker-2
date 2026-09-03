@@ -59,13 +59,13 @@ export default class Course {
 			},
 		);
 
-		if (res.status !== 200) {
+		if (!res.ok) {
 			return;
 		}
 
 		const resJson = await res.json();
 
-		for (const record of resJson.Records) {
+		for (const record of resJson.Records ?? []) {
 			const data = {};
 			for (const attr of record.Attributes) {
 				if (!attr.Name.startsWith("vit_")) {

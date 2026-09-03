@@ -1,12 +1,170 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Space+Mono&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background-color: rgb(30, 30, 30);
-    color: white;
-    font-family: "Poppins", sans-serif;
+@layer base {
+	:root {
+		--background: 210 20% 98%;
+		--foreground: 222.2 84% 4.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 222.2 84% 4.9%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 222.2 84% 4.9%;
+		--primary: 221.2 83.2% 53.3%;
+		--primary-foreground: 210 40% 98%;
+		--secondary: 210 40% 96.1%;
+		--secondary-foreground: 222.2 47.4% 11.2%;
+		--muted: 210 40% 96.1%;
+		--muted-foreground: 215.4 16.3% 46.9%;
+		--accent: 210 40% 96.1%;
+		--accent-foreground: 222.2 47.4% 11.2%;
+		--destructive: 0 72.2% 50.6%;
+		--destructive-foreground: 210 40% 98%;
+		--border: 214.3 31.8% 91.4%;
+		--input: 214.3 31.8% 91.4%;
+		--ring: 221.2 83.2% 53.3%;
+		--radius: 0.5rem;
+		--schedule-background: 0 0% 100%;
+		--schedule-foreground: 222.2 84% 4.9%;
+		--schedule-grid: 214.3 31.8% 83%;
+		--schedule-course: 210 40% 96.1%;
+		--schedule-time: 210 20% 98%;
+	}
+
+	.dark {
+		--background: 240 6% 8%;
+		--foreground: 210 40% 98%;
+		--card: 240 5% 15%;
+		--card-foreground: 210 40% 98%;
+		--popover: 240 5% 15%;
+		--popover-foreground: 210 40% 98%;
+		--primary: 217.2 91.2% 60%;
+		--primary-foreground: 222.2 47.4% 11.2%;
+		--secondary: 240 4% 20%;
+		--secondary-foreground: 210 40% 98%;
+		--muted: 240 4% 22%;
+		--muted-foreground: 240 5% 70%;
+		--accent: 240 4% 24%;
+		--accent-foreground: 210 40% 98%;
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 210 40% 98%;
+		--border: 240 4% 29%;
+		--input: 240 4% 30%;
+		--ring: 217.2 91.2% 60%;
+		--schedule-background: 240 5% 10%;
+		--schedule-foreground: 0 0% 96%;
+		--schedule-grid: 240 4% 27%;
+		--schedule-course: 240 4% 24%;
+		--schedule-time: 240 4% 16%;
+	}
+
+	* {
+		@apply border-border;
+	}
+
+	html {
+		min-width: 320px;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+		font-family:
+			ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+			sans-serif;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	button:not(:disabled),
+	[role="button"]:not(:disabled) {
+		cursor: pointer;
+	}
+}
+
+.app-header {
+	box-shadow: 0 1px 0 hsl(var(--border) / 0.55), 0 4px 18px rgb(0 0 0 / 0.08);
+}
+
+.course-option {
+	background: hsl(var(--secondary));
+	box-shadow:
+		inset 3px 0 0 hsl(var(--primary) / 0.75),
+		0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.schedule-scroll {
+	overscroll-behavior-x: contain;
+	scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--muted));
+	scrollbar-width: thin;
+}
+
+.schedule-scroll:focus-visible {
+	outline: 2px solid hsl(var(--ring));
+	outline-offset: 2px;
+}
+
+.schedule-surface {
+	background: hsl(var(--schedule-background));
+}
+
+.schedule-table {
+	background: hsl(var(--schedule-background));
+	color: hsl(var(--schedule-foreground));
+	font-size: 0.68rem;
+}
+
+.schedule-table th,
+.schedule-table td {
+	border-bottom: 1px solid hsl(var(--schedule-grid));
+	border-right: 1px solid hsl(var(--schedule-grid));
+	text-align: center;
+}
+
+.schedule-table thead th {
+	height: 28px;
+	background: hsl(var(--schedule-time));
+	font-size: 0.72rem;
+	font-weight: 500;
+	position: sticky;
+	top: 0;
+	z-index: 2;
+}
+
+.schedule-table .time-column {
+	width: 50px;
+	background: hsl(var(--schedule-time));
+	font-size: 0.58rem;
+	font-weight: 400;
+	line-height: 1.1;
+	position: sticky;
+	left: 0;
+	z-index: 1;
+}
+
+.schedule-table thead .time-column {
+	z-index: 3;
+}
+
+.schedule-table tbody tr {
+	height: 29px;
+}
+
+.schedule-table .course-cell {
+	background: hsl(var(--schedule-course));
+	font-size: 0.64rem;
+	line-height: 1.25;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+.schedule-table .course-cell strong {
+	font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
 }
