@@ -29,6 +29,9 @@
 		--schedule-grid: 214.3 31.8% 83%;
 		--schedule-course: 210 40% 96.1%;
 		--schedule-time: 210 20% 98%;
+		--schedule-weekend: 210 24% 94%;
+		--schedule-after-hours: 210 24% 94%;
+		--schedule-weekend-after-hours: 210 24% 90%;
 	}
 
 	.dark {
@@ -56,6 +59,9 @@
 		--schedule-grid: 240 4% 27%;
 		--schedule-course: 240 4% 24%;
 		--schedule-time: 240 4% 16%;
+		--schedule-weekend: 240 5% 7%;
+		--schedule-after-hours: 240 5% 7%;
+		--schedule-weekend-after-hours: 240 5% 5%;
 	}
 
 	* {
@@ -180,6 +186,22 @@
 	height: 29px;
 }
 
+.schedule-table .weekend-column {
+	background: hsl(var(--schedule-weekend));
+}
+
+.schedule-table .after-hours-row {
+	background: hsl(var(--schedule-after-hours));
+}
+
+.schedule-table .after-hours-row .time-column {
+	background: hsl(var(--schedule-after-hours));
+}
+
+.schedule-table .after-hours-row .weekend-column {
+	background: hsl(var(--schedule-weekend-after-hours));
+}
+
 .schedule-table .course-cell {
 	background: hsl(var(--course-color, var(--schedule-course)) / 0.14);
 	box-shadow: inset 3px 0 0 hsl(var(--course-color, var(--primary)));
@@ -188,6 +210,24 @@
 	overflow-wrap: anywhere;
 	padding: 3px;
 	vertical-align: middle;
+}
+
+.schedule-table .course-cell.weekend-column {
+	background:
+		linear-gradient(
+			hsl(var(--course-color, var(--schedule-course)) / 0.14),
+			hsl(var(--course-color, var(--schedule-course)) / 0.14)
+		),
+		hsl(var(--schedule-weekend));
+}
+
+.schedule-table .after-hours-row .course-cell.weekend-column {
+	background:
+		linear-gradient(
+			hsl(var(--course-color, var(--schedule-course)) / 0.14),
+			hsl(var(--course-color, var(--schedule-course)) / 0.14)
+		),
+		hsl(var(--schedule-weekend-after-hours));
 }
 
 .schedule-table .course-cell strong {

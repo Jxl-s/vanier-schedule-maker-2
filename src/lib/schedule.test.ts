@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { CoursePeriod, CourseSection } from "@/types/schedule";
-import { generateValidSchedules } from "./schedule";
+import {
+	DAYS,
+	WEEKDAYS,
+	dayToIndex,
+	generateValidSchedules,
+	getScheduleDays,
+	getScheduleEndMinutes,
+} from "./schedule";
 
 function period(day: string, start: number, end: number): CoursePeriod {
 	return {
@@ -81,5 +88,45 @@ describe("schedule generation", () => {
 
 		expect(result.schedules).toHaveLength(1);
 		expect(result.truncated).toBe(true);
+	});
+
+	it("detects conflicts between weekend periods", () => {
+		const catalog = {
+			A: [section("A", 1, [period("Saturday", 9, 10)])],
+			B: [section("B", 1, [period("Sat", 9, 10)])],
+		};
+
+		const result = generateValidSchedules([
+			{ course: "A", section: 1 },
+			{ course: "B", section: 1 },
+		], catalog);
+
+		expect(result.schedules).toEqual([]);
+	});
+});
+
+describe("schedule layout", () => {
+	it("shows weekdays and ends at 18:00 by default", () => {
+		const data = [section("A", 1, [period("Monday", 9, 10)])];
+
+		expect(getScheduleDays(data)).toEqual(WEEKDAYS);
+		expect(getScheduleEndMinutes(data)).toBe(18 * 60);
+	});
+
+	it("shows both weekend columns when a weekend period is present", () => {
+		const data = [section("A", 1, [period("Saturday", 9, 10)])];
+
+		expect(getScheduleDays(data)).toEqual(DAYS);
+		expect(dayToIndex("Saturday")).toBe(5);
+		expect(dayToIndex("Sun")).toBe(6);
+	});
+
+	it("extends to the latest course end time after 18:00", () => {
+		const data = [
+			section("A", 1, [period("Monday", 18, 20)]),
+			section("B", 1, [period("Tuesday", 19, 21)]),
+		];
+
+		expect(getScheduleEndMinutes(data)).toBe(21 * 60);
 	});
 });

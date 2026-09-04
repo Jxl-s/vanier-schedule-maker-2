@@ -5,7 +5,14 @@ import type {
 	CourseSelection,
 } from "@/types/schedule";
 
-export const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as const;
+export const WEEKDAYS = [
+	"Monday",
+	"Tuesday",
+	"Wednesday",
+	"Thursday",
+	"Friday",
+] as const;
+export const DAYS = [...WEEKDAYS, "Saturday", "Sunday"] as const;
 export const SCHEDULE_START_MINUTES = 8 * 60;
 export const SCHEDULE_END_MINUTES = 18 * 60;
 export const SLOT_MINUTES = 30;
@@ -25,6 +32,10 @@ const DAY_INDEX: Record<string, number> = {
 	thursday: 3,
 	fri: 4,
 	friday: 4,
+	sat: 5,
+	saturday: 5,
+	sun: 6,
+	sunday: 6,
 };
 
 export function dayToIndex(day: string): number {
@@ -39,6 +50,29 @@ export function formatTime(totalMinutes: number): string {
 	const hours = Math.floor(totalMinutes / 60);
 	const minutes = totalMinutes % 60;
 	return `${hours}:${minutes.toString().padStart(2, "0")}`;
+}
+
+export function getScheduleDays(data: CourseSection[]): readonly string[] {
+	const hasWeekendCourse = data.some((course) =>
+		course.periods.some((period) => dayToIndex(period.day) >= WEEKDAYS.length),
+	);
+
+	return hasWeekendCourse ? DAYS : WEEKDAYS;
+}
+
+export function getScheduleEndMinutes(data: CourseSection[]): number {
+	return data.reduce(
+		(latest, course) =>
+			course.periods.reduce(
+				(courseLatest, period) =>
+					Math.max(
+						courseLatest,
+						timeToMinutes(period.end_hour, period.end_minute),
+					),
+				latest,
+			),
+		SCHEDULE_END_MINUTES,
+	);
 }
 
 interface OccupiedPeriod {

@@ -2,6 +2,47 @@
 
 const fs = require("fs");
 
+const FETCH_ATTEMPTS = 5;
+const FETCH_RETRY_DELAY_MS = 1_000;
+const CLASS_REQUEST_CONCURRENCY = 8;
+
+function wait(milliseconds) {
+	return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+async function fetchWithRetry(url, options) {
+	for (let attempt = 1; attempt <= FETCH_ATTEMPTS; attempt++) {
+		try {
+			return await fetch(url, options);
+		} catch (error) {
+			if (attempt === FETCH_ATTEMPTS) throw error;
+
+			const delay = FETCH_RETRY_DELAY_MS * 2 ** (attempt - 1);
+			console.warn(
+				`Fetch failed (attempt ${attempt}/${FETCH_ATTEMPTS}); retrying in ${delay}ms.`,
+			);
+			await wait(delay);
+		}
+	}
+}
+
+async function mapWithConcurrency(items, concurrency, callback) {
+	const results = new Array(items.length);
+	let nextIndex = 0;
+
+	async function worker() {
+		while (nextIndex < items.length) {
+			const index = nextIndex;
+			nextIndex++;
+			results[index] = await callback(items[index], index);
+		}
+	}
+
+	const workerCount = Math.min(concurrency, items.length);
+	await Promise.all(Array.from({ length: workerCount }, () => worker()));
+	return results;
+}
+
 async function dump(clear = true) {
 	const BASE_URL = "https://vanierlivecourseschedule.powerappsportals.com";
 	const FORM_ID = process.argv[2];
@@ -21,7 +62,7 @@ async function dump(clear = true) {
 
 	async function getSecureConfig(url) {
 		// Retrieve the secure configuration token
-		const response = await fetch(url);
+		const response = await fetchWithRetry(url);
 		if (response.status !== 200) {
 			return false;
 		}
@@ -42,7 +83,7 @@ async function dump(clear = true) {
 	}
 
 	async function getTokens() {
-		const response = await fetch(BASE_URL + "/_layout/tokenhtml");
+		const response = await fetchWithRetry(BASE_URL + "/_layout/tokenhtml");
 		if (response.status !== 200) {
 			return false;
 		}
@@ -60,7 +101,7 @@ async function dump(clear = true) {
 
 	async function getCourses(cookie, token, page = 1, pageSize = 40) {
 		const secureConfig = await getSecureConfig(BASE_URL);
-		const res = await fetch(
+		const res = await fetchWithRetry(
 			BASE_URL +
 				"/_services/entity-grid-data.json/c7a13072-c94f-ed11-bba3-0022486daee2",
 			{
@@ -113,7 +154,7 @@ async function dump(clear = true) {
 			`${BASE_URL}/_portal/modal-form-template-path/c7a13072-c94f-ed11-bba3-0022486daee2?id=${entityId}&entityformid=${FORM_ID}&languagecode=1033`,
 		);
 		if (!secureConfig) return [];
-		const res = await fetch(
+		const res = await fetchWithRetry(
 			BASE_URL +
 				"/_services/entity-grid-data.json/c7a13072-c94f-ed11-bba3-0022486daee2",
 			{
@@ -161,7 +202,6 @@ async function dump(clear = true) {
 			)?.Value;
 
 			if (!teacher || !day || !time || !room) continue;
-			if (day === "Sat" || day === "Sun") continue;
 
 			classes.push({
 				teacher,
@@ -190,12 +230,11 @@ async function dump(clear = true) {
 	while (allCourses.length > 0) {
 		const pageDump = {};
 
-		const promises = [];
-		for (const course of allCourses) {
-			promises.push(getClasses(cookie, token, course.id));
-		}
-
-		const allClasses = await Promise.all(promises);
+		const allClasses = await mapWithConcurrency(
+			allCourses,
+			CLASS_REQUEST_CONCURRENCY,
+			(course) => getClasses(cookie, token, course.id),
+		);
 
 		for (const [index, course] of allCourses.entries()) {
 			const department = course.courseId.substring(0, 3);

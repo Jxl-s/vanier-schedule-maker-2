@@ -1,10 +1,12 @@
 import { formatSection } from "@/lib/course-code";
 import {
-	DAYS,
 	formatTime,
+	getScheduleDays,
+	getScheduleEndMinutes,
 	SCHEDULE_END_MINUTES,
 	SCHEDULE_START_MINUTES,
 	SLOT_MINUTES,
+	WEEKDAYS,
 	dayToIndex,
 	timeToMinutes,
 } from "@/lib/schedule";
@@ -23,11 +25,16 @@ interface CourseCell {
 
 type ScheduleCell = CourseCell | "occupied" | null;
 
-function calculateScheduleCells(data: CourseSection[]): ScheduleCell[][] {
-	const rowCount =
-		(SCHEDULE_END_MINUTES - SCHEDULE_START_MINUTES) / SLOT_MINUTES;
+function calculateScheduleCells(
+	data: CourseSection[],
+	days: readonly string[],
+	endMinutes: number,
+): ScheduleCell[][] {
+	const rowCount = Math.ceil(
+		(endMinutes - SCHEDULE_START_MINUTES) / SLOT_MINUTES,
+	);
 	const table = Array.from({ length: rowCount }, () =>
-		Array<ScheduleCell>(DAYS.length).fill(null),
+		Array<ScheduleCell>(days.length).fill(null),
 	);
 
 	for (const course of data) {
@@ -67,7 +74,9 @@ function calculateScheduleCells(data: CourseSection[]): ScheduleCell[][] {
 }
 
 export default function Schedule({ courseColors, data }: ScheduleProps) {
-	const scheduleTable = calculateScheduleCells(data);
+	const days = getScheduleDays(data);
+	const endMinutes = getScheduleEndMinutes(data);
+	const scheduleTable = calculateScheduleCells(data, days, endMinutes);
 
 	return (
 		<div
@@ -78,13 +87,18 @@ export default function Schedule({ courseColors, data }: ScheduleProps) {
 		>
 			<table className="schedule-table w-full table-fixed border-collapse">
 				<caption className="sr-only">
-					Weekly course schedule from 8:00 to 18:00
+					Weekly course schedule from {formatTime(SCHEDULE_START_MINUTES)} to{" "}
+					{formatTime(endMinutes)}
 				</caption>
 				<thead>
 					<tr>
 						<th className="time-column" scope="col" />
-						{DAYS.map((day) => (
-							<th key={day} scope="col">
+						{days.map((day, dayIndex) => (
+							<th
+								className={dayIndex >= WEEKDAYS.length ? "weekend-column" : undefined}
+								key={day}
+								scope="col"
+							>
 								{day}
 							</th>
 						))}
@@ -95,9 +109,10 @@ export default function Schedule({ courseColors, data }: ScheduleProps) {
 						const startTime =
 							SCHEDULE_START_MINUTES + rowIndex * SLOT_MINUTES;
 						const endTime = startTime + SLOT_MINUTES;
+						const isAfterHours = startTime >= SCHEDULE_END_MINUTES;
 
 						return (
-							<tr key={startTime}>
+							<tr className={isAfterHours ? "after-hours-row" : undefined} key={startTime}>
 								<th className="time-column" scope="row">
 									{formatTime(startTime)}
 									<br />
@@ -105,15 +120,21 @@ export default function Schedule({ courseColors, data }: ScheduleProps) {
 								</th>
 								{row.map((cell, dayIndex) => {
 									if (cell === "occupied") return null;
+									const isWeekend = dayIndex >= WEEKDAYS.length;
 
 									if (cell === null) {
-										return <td key={DAYS[dayIndex]} />;
+										return (
+											<td
+												className={isWeekend ? "weekend-column" : undefined}
+												key={days[dayIndex]}
+											/>
+										);
 									}
 
 									const { course, period, rowSpan } = cell;
 									return (
 										<td
-											className={`course-cell course-color-${courseColors[course.id] ?? 0}`}
+											className={`course-cell course-color-${courseColors[course.id] ?? 0}${isWeekend ? " weekend-column" : ""}`}
 											key={[course.id, course.section, period.day, startTime].join("-")}
 											rowSpan={rowSpan}
 										>
