@@ -37,7 +37,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add dump-courses.json dump-teachers.json
+          git add dump-courses.json dump-teachers.json dump-teacher-courses.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0

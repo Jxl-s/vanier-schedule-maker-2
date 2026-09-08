@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require("fs");
+const { writeTeacherIndex } = require("./scripts/build-teacher-index");
 
 const FETCH_ATTEMPTS = 5;
 const FETCH_RETRY_DELAY_MS = 1_000;
@@ -280,6 +281,8 @@ async function join() {
 	}
 
 	fs.writeFileSync("dump-courses.json", JSON.stringify(output));
+	const teacherIndex = writeTeacherIndex(output);
+	console.log(`Indexed ${Object.keys(teacherIndex).length} teachers.`);
 }
 
 dump(true).then(() => join());

@@ -1,6 +1,7 @@
 export interface CoursePeriod {
 	day: string;
 	room: string;
+	teachers?: string[];
 	start_hour: number;
 	start_minute: number;
 	end_hour: number;
@@ -47,4 +48,29 @@ export interface CourseSuggestion {
 	id: string;
 	title: string;
 	sections: number;
+}
+
+export interface TeacherSuggestion {
+	id: string;
+	name: string;
+	courses: number;
+}
+
+export interface TeacherCourseIndexEntry {
+	id: string;
+	name: string;
+	courses: string[];
+}
+
+export interface TeacherSearchResponse {
+	code: number;
+	data: TeacherSuggestion[];
+	total: number;
+	message?: string;
+}
+
+export interface TeacherCoursesResponse {
+	code: number;
+	data: TeacherCourseIndexEntry | null;
+	message?: string;
 }

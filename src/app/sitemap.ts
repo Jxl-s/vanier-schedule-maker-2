@@ -7,5 +7,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			url: siteConfig.url,
 			lastModified: new Date(),
 		},
+		{
+			url: `${siteConfig.url}/teachers`,
+			lastModified: new Date(),
+		},
 	];
 }

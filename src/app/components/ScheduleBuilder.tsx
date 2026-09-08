@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Code2, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import {
 	Card,
 	CardContent,
@@ -13,13 +12,12 @@ import { useScheduleStorage } from "@/hooks/use-schedule-storage";
 import { normalizeCourseCode } from "@/lib/course-code";
 import { courseColorIndex } from "@/lib/course-colors";
 import { generateValidSchedules } from "@/lib/schedule";
-import { siteConfig } from "@/lib/site";
 import type { CourseResponse, CourseSuggestion } from "@/types/schedule";
+import AppHeader from "./AppHeader";
 import CourseCard from "./CourseCard";
 import CourseAutocomplete from "./CourseAutocomplete";
 import SavedSchedules from "./SavedSchedules";
 import ScheduleWorkspace from "./ScheduleWorkspace";
-import ThemeToggle from "./ThemeToggle";
 import UsefulLinks from "./UsefulLinks";
 
 type Status = {
@@ -217,29 +215,7 @@ export default function ScheduleBuilder({
 
 	return (
 		<div className="min-h-screen bg-background text-foreground">
-			<header className="app-header bg-card">
-				<div className="mx-auto flex max-w-[1440px] items-center justify-between px-3 py-3 sm:px-4">
-					<div>
-						<h1 className="text-base font-semibold">{siteConfig.name}</h1>
-						<p className="text-xs text-muted-foreground">
-							{siteConfig.shortDescription}
-						</p>
-					</div>
-					<div className="flex items-center gap-1">
-						<ThemeToggle />
-						<Button asChild className="h-8 w-8" size="icon" variant="ghost">
-							<a
-								aria-label="View source on GitHub"
-								href="https://github.com/Jxl-s/vanier-schedule-maker-2"
-								rel="noreferrer"
-								target="_blank"
-							>
-								<Code2 className="h-4 w-4" />
-							</a>
-						</Button>
-					</div>
-				</div>
-			</header>
+			<AppHeader page="builder" />
 
 			<div className="mx-auto grid max-w-[1440px] items-start gap-3 p-3 sm:gap-4 sm:p-4 lg:grid-cols-[340px_minmax(0,1fr)]">
 				<aside className="space-y-3">

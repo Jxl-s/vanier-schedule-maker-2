@@ -33,6 +33,7 @@ function parsePeriod(rawPeriod: RawClass): CoursePeriod | null {
 	return {
 		day: rawPeriod.day,
 		room: rawPeriod.room || "Room TBA",
+		teachers: rawPeriod.teacher ? [rawPeriod.teacher.trim()] : [],
 		start_hour: Number(match[1]),
 		start_minute: Number(match[2]),
 		end_hour: Number(match[3]),
@@ -129,15 +130,23 @@ function findTeacherRating(name: string): TeacherRating | null {
 }
 
 function prepareCourse(rawCourse: RawCourse): CourseSection {
-	const uniqueClasses = new Map<string, RawClass>();
+	const uniquePeriods = new Map<string, CoursePeriod>();
 	for (const classMeeting of rawCourse.classes) {
 		const key = classMeeting.day + "-" + classMeeting.time;
-		if (!uniqueClasses.has(key)) uniqueClasses.set(key, classMeeting);
+		const existing = uniquePeriods.get(key);
+		if (existing) {
+			const teacher = classMeeting.teacher?.trim();
+			if (teacher && !existing.teachers?.includes(teacher)) {
+				existing.teachers = [...(existing.teachers ?? []), teacher];
+			}
+			continue;
+		}
+
+		const period = parsePeriod(classMeeting);
+		if (period) uniquePeriods.set(key, period);
 	}
 
-	const periods = Array.from(uniqueClasses.values())
-		.map(parsePeriod)
-		.filter((period): period is CoursePeriod => period !== null);
+	const periods = Array.from(uniquePeriods.values());
 	const teacher =
 		rawCourse.classes.find((classMeeting) => classMeeting.teacher)?.teacher ??
 		"Teacher TBA";
