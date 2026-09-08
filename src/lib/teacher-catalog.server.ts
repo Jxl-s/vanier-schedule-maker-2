@@ -1,6 +1,9 @@
 import teacherCourseDump from "../../dump-teacher-courses.json";
+import { getCourseSections } from "./course-catalog.server";
+import { getTeacherSections } from "./teacher-schedule";
 import type {
 	TeacherCourseIndexEntry,
+	TeacherSchedule,
 	TeacherSuggestion,
 } from "@/types/schedule";
 
@@ -56,4 +59,24 @@ export function getTeacherCourses(
 	id: string,
 ): TeacherCourseIndexEntry | undefined {
 	return teachersById.get(id.trim());
+}
+
+export function getTeacherSchedule(id: string): TeacherSchedule | undefined {
+	const teacher = getTeacherCourses(id);
+	if (!teacher) return undefined;
+
+	const sections = teacher.courses
+		.flatMap((courseId) =>
+			getTeacherSections(
+				getCourseSections(courseId) ?? [],
+				teacher.id,
+				teacher.name,
+			),
+		)
+		.sort(
+			(left, right) =>
+				left.id.localeCompare(right.id) || left.section - right.section,
+		);
+
+	return { id: teacher.id, name: teacher.name, sections };
 }

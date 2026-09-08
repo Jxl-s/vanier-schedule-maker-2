@@ -11,11 +11,9 @@ import {
 import { formatSection } from "@/lib/course-code";
 import { courseColorIndex } from "@/lib/course-colors";
 import { formatTime, timeToMinutes } from "@/lib/schedule";
-import { getTeacherSections } from "@/lib/teacher-schedule";
 import type {
-	CourseResponse,
 	CourseSection,
-	TeacherCoursesResponse,
+	TeacherScheduleResponse,
 	TeacherSuggestion,
 } from "@/types/schedule";
 import AppHeader from "./AppHeader";
@@ -47,41 +45,17 @@ export default function TeacherScheduleViewer({
 
 		async function loadTeacherSchedule() {
 			try {
-				const teacherResponse = await fetch(
+				const response = await fetch(
 					`/api/teachers/${encodeURIComponent(teacher.id)}`,
 					{ signal: controller.signal },
 				);
-				const teacherResult =
-					(await teacherResponse.json()) as TeacherCoursesResponse;
-				if (!teacherResponse.ok || !teacherResult.data) {
+				const result = (await response.json()) as TeacherScheduleResponse;
+				if (!response.ok || !result.data) {
 					throw new Error(
-						teacherResult.message ?? "Unable to load this teacher's courses.",
+						result.message ?? "Unable to load this teacher's schedule.",
 					);
 				}
-
-				const courseResponses = await Promise.all(
-					teacherResult.data.courses.map(async (courseId) => {
-						const response = await fetch(
-							`/api/courses/${encodeURIComponent(courseId)}`,
-							{ cache: "no-store", signal: controller.signal },
-						);
-						const result = (await response.json()) as CourseResponse;
-						if (!response.ok) {
-							throw new Error(result.message ?? `Unable to load ${courseId}.`);
-						}
-						return result.data;
-					}),
-				);
-
-				const teacherSections = courseResponses
-					.flatMap((courseSections) =>
-						getTeacherSections(courseSections, teacher.id, teacher.name),
-					)
-					.sort(
-						(left, right) =>
-							left.id.localeCompare(right.id) || left.section - right.section,
-					);
-				setSections(teacherSections);
+				setSections(result.data.sections);
 			} catch (loadError) {
 				if (!(loadError instanceof DOMException && loadError.name === "AbortError")) {
 					setError(

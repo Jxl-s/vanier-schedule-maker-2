@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getTeacherCourses } from "@/lib/teacher-catalog.server";
+import { getTeacherSchedule } from "@/lib/teacher-catalog.server";
 
 interface RouteContext {
 	params: { teacherId: string };
@@ -23,8 +23,8 @@ export function GET(_request: Request, { params }: RouteContext) {
 		);
 	}
 
-	const teacher = getTeacherCourses(teacherId);
-	if (!teacher) {
+	const schedule = getTeacherSchedule(teacherId);
+	if (!schedule) {
 		return NextResponse.json(
 		{ code: 404, data: null, message: "Teacher schedule not found." },
 		{ status: 404, headers: responseHeaders },
@@ -32,7 +32,7 @@ export function GET(_request: Request, { params }: RouteContext) {
 	}
 
 	return NextResponse.json(
-		{ code: 200, data: teacher },
+		{ code: 200, data: schedule },
 		{ headers: responseHeaders },
 	);
 }

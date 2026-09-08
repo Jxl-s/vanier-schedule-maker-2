@@ -62,6 +62,12 @@ export interface TeacherCourseIndexEntry {
 	courses: string[];
 }
 
+export interface TeacherSchedule {
+	id: string;
+	name: string;
+	sections: CourseSection[];
+}
+
 export interface TeacherSearchResponse {
 	code: number;
 	data: TeacherSuggestion[];
@@ -69,8 +75,8 @@ export interface TeacherSearchResponse {
 	message?: string;
 }
 
-export interface TeacherCoursesResponse {
+export interface TeacherScheduleResponse {
 	code: number;
-	data: TeacherCourseIndexEntry | null;
+	data: TeacherSchedule | null;
 	message?: string;
 }

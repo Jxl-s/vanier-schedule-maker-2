@@ -3,6 +3,7 @@ import {
 	formatTeacherName,
 	getTeacherCount,
 	getTeacherCourses,
+	getTeacherSchedule,
 	searchTeachers,
 } from "./teacher-catalog.server";
 
@@ -25,6 +26,20 @@ describe("teacher catalog", () => {
 
 		expect(teacher?.courses.length).toBeGreaterThan(0);
 		expect(teacher?.courses.every((course) => typeof course === "string")).toBe(true);
+	});
+
+	it("builds the teacher's complete schedule on the server", () => {
+		const schedule = getTeacherSchedule("Bland, James");
+
+		expect(schedule?.sections.length).toBeGreaterThan(0);
+		expect(schedule?.sections.every((section) => section.teacher === "James Bland")).toBe(
+			true,
+		);
+		expect(
+			schedule?.sections
+				.flatMap((section) => section.periods)
+				.every((period) => period.teachers?.includes("Bland, James")),
+		).toBe(true);
 	});
 
 	it("formats source names for display", () => {
