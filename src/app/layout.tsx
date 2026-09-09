@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
 import StructuredData from "./components/StructuredData";
+import "./index.css";
 
 export const metadata: Metadata = {
 	metadataBase: new URL(siteConfig.url),
